@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- EngKids Halloween splash: deep purple background with centred ghost emoji -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Deep purple background — matches HalloweenColors.deepPurple #1A0030 -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#1A0030" />
+        </shape>
+    </item>
+</layer-list>
