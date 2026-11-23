@@ -6,6 +6,8 @@ import 'package:engkids/features/home/screens/parents_screen.dart';
 import 'package:engkids/features/home/screens/play_picker_screen.dart';
 import 'package:engkids/features/splash/screens/splash_screen.dart';
 
+bool splashCompleted = false;
+
 CustomTransitionPage<void> _fadePage({
   required LocalKey key,
   required Widget child,
@@ -19,9 +21,23 @@ CustomTransitionPage<void> _fadePage({
   );
 }
 
-GoRouter createAppRouter({String initialLocation = '/'}) {
+GoRouter createAppRouter({
+  String initialLocation = '/',
+  bool skipSplash = false,
+}) {
+  if (skipSplash) {
+    splashCompleted = true;
+  }
+
   return GoRouter(
     initialLocation: initialLocation,
+    redirect: (context, state) {
+      // Always show the splash screen first on app launch or hot restart
+      if (!splashCompleted && state.matchedLocation != '/') {
+        return '/';
+      }
+      return null;
+    },
     routes: [
       GoRoute(
         path: '/',

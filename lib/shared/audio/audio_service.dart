@@ -23,9 +23,18 @@ class AudioService extends ChangeNotifier {
     try {
       await _music.setReleaseMode(ReleaseMode.loop);
       await _music.setVolume(muted ? 0 : _themeVolume);
-      if (_themeStarted) return;
+      if (_themeStarted) {
+        if (muted) {
+          await _music.pause();
+        }
+        return;
+      }
       _themeStarted = true;
-      await _music.play(AssetSource('audio/halloween_splash.mp3'));
+      if (muted) {
+        await _music.setSource(AssetSource('audio/halloween_splash.mp3'));
+      } else {
+        await _music.play(AssetSource('audio/halloween_splash.mp3'));
+      }
     } catch (_) {
       _themeStarted = false;
     }
@@ -34,7 +43,18 @@ class AudioService extends ChangeNotifier {
   Future<void> toggleMute() async {
     muted = !muted;
     try {
-      await _music.setVolume(muted ? 0 : _themeVolume);
+      if (muted) {
+        await _music.setVolume(0);
+        await _music.pause();
+        await _sfx.stop();
+      } else {
+        await _music.setVolume(_themeVolume);
+        if (_themeStarted) {
+          await _music.resume();
+        } else {
+          await playTheme();
+        }
+      }
     } catch (_) {}
     notifyListeners();
   }
