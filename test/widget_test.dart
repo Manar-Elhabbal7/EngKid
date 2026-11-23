@@ -1,32 +1,73 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:engkids/main.dart';
-import 'package:engkids/features/home/models/activity_room.dart';
+import 'package:go_router/go_router.dart';
+
+import 'package:engkids/app/theme.dart';
+import 'package:engkids/features/home/screens/home_screen.dart';
+import 'package:engkids/features/home/screens/parents_screen.dart';
+import 'package:engkids/features/home/screens/play_picker_screen.dart';
+import 'package:engkids/features/splash/screens/splash_screen.dart';
+
+Widget _app(GoRouter router) {
+  return ProviderScope(
+    child: MaterialApp.router(
+      theme: HalloweenTheme.theme,
+      routerConfig: router,
+    ),
+  );
+}
 
 void main() {
-  // flutter_animate uses repeating timers; use pump() not pumpAndSettle().
+  testWidgets('splash screen shows Halloween loading copy', (tester) async {
+    final router = GoRouter(
+      routes: [
+        GoRoute(
+          path: '/',
+          builder: (context, state) =>
+              const SplashScreen(holdFor: Duration(days: 1)),
+        ),
+        GoRoute(path: '/home', builder: (context, state) => const SizedBox()),
+      ],
+    );
 
-  testWidgets('App builds and shows mansion header', (tester) async {
-    await tester.pumpWidget(const ProviderScope(child: EngKidsApp()));
-    await tester.pump(const Duration(milliseconds: 500));
+    await tester.pumpWidget(_app(router));
+    await tester.pump();
 
-    expect(find.text('Haunted Mansion'), findsOneWidget);
+    expect(find.text('Boo is waking up...'), findsOneWidget);
+    expect(
+      find.bySemanticsLabel('EngKids haunted mansion with Boo the ghost'),
+      findsOneWidget,
+    );
   });
 
-  testWidgets('Home screen shows all 5 activity room labels', (tester) async {
-    await tester.pumpWidget(const ProviderScope(child: EngKidsApp()));
-    await tester.pump(const Duration(milliseconds: 600));
+  testWidgets('home welcome shows play, parents, and mute', (tester) async {
+    final router = GoRouter(
+      initialLocation: '/home',
+      routes: [
+        GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
+        GoRoute(
+          path: '/play',
+          builder: (context, state) => const PlayPickerScreen(),
+        ),
+        GoRoute(
+          path: '/parents',
+          builder: (context, state) => const ParentsScreen(),
+        ),
+      ],
+    );
 
-    for (final room in kActivityRooms) {
-      expect(find.text(room.label), findsOneWidget);
-    }
-  });
+    await tester.pumpWidget(_app(router));
+    await tester.pump();
 
-  testWidgets('Home screen shows Boo mascot', (tester) async {
-    await tester.pumpWidget(const ProviderScope(child: EngKidsApp()));
-    await tester.pump(const Duration(milliseconds: 500));
+    expect(find.text("Let's learn some magic!"), findsOneWidget);
+    expect(find.text('Play'), findsOneWidget);
+    expect(find.text('Parents'), findsOneWidget);
+    expect(find.byTooltip('Mute music'), findsOneWidget);
 
-    // Boo's speech bubble
-    expect(find.text("Hi! I'm Boo! 👋"), findsOneWidget);
+    await tester.tap(find.text('Play'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 350));
+    expect(find.text('Choose a game'), findsOneWidget);
   });
 }
