@@ -76,9 +76,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                const WoodenSign(
-                                  message: "Let's learn some magic!",
-                                ),
                                 const SizedBox(height: 22),
                                 MenuPillButton(
                                   label: 'Play',
