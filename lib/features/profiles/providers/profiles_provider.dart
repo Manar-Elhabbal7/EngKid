@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:engkids/features/profiles/data/profile_store.dart';
 import 'package:engkids/features/profiles/models/profile.dart';
+import 'package:engkids/features/progress/providers/progress_provider.dart';
 
 /// Overridden in `main.dart` with the Hive store. Defaults to memory so
 /// widget tests work without device storage.
@@ -14,6 +15,15 @@ final profilesProvider = NotifierProvider<ProfilesNotifier, List<Profile>>(
 
 /// The player picked on the "Who is playing today?" screen.
 final currentProfileIdProvider = StateProvider<String>((ref) => Profile.booId);
+
+/// The chosen player, or Boo when nobody has been picked yet
+/// (or the picked player was deleted).
+final currentProfileProvider = Provider<Profile>((ref) {
+  final id = ref.watch(currentProfileIdProvider);
+  return ref
+      .watch(profilesProvider)
+      .firstWhere((p) => p.id == id, orElse: () => Profile.boo);
+});
 
 class ProfilesNotifier extends Notifier<List<Profile>> {
   static const maxProfiles = 2;
@@ -41,11 +51,8 @@ class ProfilesNotifier extends Notifier<List<Profile>> {
   /// Adds a player. Returns the new profile, or null if the name is blank
   /// or the list is already full.
   Future<Profile?> add({required String name, required String avatarId}) async {
-    final clean = name.trim().replaceAll(RegExp(r'\s+'), ' ');
-    if (clean.isEmpty || isFull) return null;
-    final trimmed = clean.length > maxNameLength
-        ? clean.substring(0, maxNameLength)
-        : clean;
+    final trimmed = cleanName(name);
+    if (trimmed == null || isFull) return null;
     final profile = Profile(
       id: 'p${DateTime.now().microsecondsSinceEpoch}',
       name: trimmed,
@@ -61,6 +68,28 @@ class ProfilesNotifier extends Notifier<List<Profile>> {
   Future<void> remove(String id) async {
     if (id == Profile.booId) return;
     await _setPlayers(_players.where((p) => p.id != id).toList());
+    await ref.read(progressProvider.notifier).forget(id);
+  }
+
+  /// Changes a player's name. Returns false for a blank name or for Boo.
+  Future<bool> rename(String id, String name) async {
+    final trimmed = cleanName(name);
+    if (trimmed == null || id == Profile.booId) return false;
+    if (!_players.any((p) => p.id == id)) return false;
+    await _setPlayers([
+      for (final p in _players)
+        p.id == id ? Profile(id: p.id, name: trimmed, avatarId: p.avatarId) : p,
+    ]);
+    return true;
+  }
+
+  /// Collapses spaces and caps the length; null when nothing is left.
+  static String? cleanName(String name) {
+    final clean = name.trim().replaceAll(RegExp(r'\s+'), ' ');
+    if (clean.isEmpty) return null;
+    return clean.length > maxNameLength
+        ? clean.substring(0, maxNameLength)
+        : clean;
   }
 
   Future<void> _setPlayers(List<Profile> players) async {

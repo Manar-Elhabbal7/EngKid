@@ -10,6 +10,8 @@ class MenuPillButton extends StatefulWidget {
     required this.shadow,
     required this.foreground,
     required this.onPressed,
+    this.fontSize = 28,
+    this.iconSize = 30,
   });
 
   final String label;
@@ -20,6 +22,10 @@ class MenuPillButton extends StatefulWidget {
 
   /// Null makes the button disabled: dimmed and not tappable.
   final VoidCallback? onPressed;
+
+  /// Label and icon sizes. Defaults match the big home-screen buttons.
+  final double fontSize;
+  final double iconSize;
 
   @override
   State<MenuPillButton> createState() => _MenuPillButtonState();
@@ -85,13 +91,17 @@ class _MenuPillButtonState extends State<MenuPillButton> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(widget.icon, color: widget.foreground, size: 30),
-                    const SizedBox(width: 10),
+                    Icon(
+                      widget.icon,
+                      color: widget.foreground,
+                      size: widget.iconSize,
+                    ),
+                    SizedBox(width: widget.iconSize / 3),
                     Text(
                       widget.label,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         color: widget.foreground,
-                        fontSize: 28,
+                        fontSize: widget.fontSize,
                         fontWeight: FontWeight.w800,
                       ),
                     ),

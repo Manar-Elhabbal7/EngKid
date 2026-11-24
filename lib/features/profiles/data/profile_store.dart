@@ -32,9 +32,10 @@ class HiveProfileStore implements ProfileStore {
 
   final Box<dynamic> _box;
 
-  static Future<HiveProfileStore> open() async {
+  /// Opens the app's single Hive box (profiles and progress live in it).
+  static Future<Box<dynamic>> openBox() async {
     await Hive.initFlutter();
-    return HiveProfileStore(await Hive.openBox<dynamic>(boxName));
+    return Hive.openBox<dynamic>(boxName);
   }
 
   @override
