@@ -18,6 +18,8 @@ class ChildProgress {
     this.secondsPlayed = 0,
     this.strengths = const {},
     this.completedLessons = const {},
+    this.coins = 0,
+    this.heardLetters = const {},
   });
 
   static const empty = ChildProgress();
@@ -32,6 +34,13 @@ class ChildProgress {
   /// Names of finished lessons (`Lesson.name`), e.g. `{'alphabet'}`.
   final Set<String> completedLessons;
 
+  /// Coins earned in the games.
+  final int coins;
+
+  /// Letters heard at least once, lowercase (`{'a', 'b'}`). Used so coins
+  /// are only given the first time.
+  final Set<String> heardLetters;
+
   double strength(Skill skill) => (strengths[skill] ?? 0).clamp(0.0, 1.0);
 
   bool get isEmpty =>
@@ -39,6 +48,7 @@ class ChildProgress {
       wordsLearned == 0 &&
       secondsPlayed == 0 &&
       completedLessons.isEmpty &&
+      coins == 0 &&
       Skill.values.every((s) => strength(s) == 0);
 
   /// "1h 24m", "12m", or "0m".
@@ -55,6 +65,8 @@ class ChildProgress {
     int? secondsPlayed,
     Map<Skill, double>? strengths,
     Set<String>? completedLessons,
+    int? coins,
+    Set<String>? heardLetters,
   }) {
     return ChildProgress(
       lettersLearned: lettersLearned ?? this.lettersLearned,
@@ -62,6 +74,8 @@ class ChildProgress {
       secondsPlayed: secondsPlayed ?? this.secondsPlayed,
       strengths: strengths ?? this.strengths,
       completedLessons: completedLessons ?? this.completedLessons,
+      coins: coins ?? this.coins,
+      heardLetters: heardLetters ?? this.heardLetters,
     );
   }
 
@@ -71,6 +85,8 @@ class ChildProgress {
     'seconds': secondsPlayed,
     for (final s in Skill.values) 'skill_${s.name}': strength(s),
     'completed': completedLessons.toList(),
+    'coins': coins,
+    'heard': heardLetters.toList(),
   };
 
   /// Bad or missing values become 0 so a corrupt save can't crash the app.
@@ -92,6 +108,10 @@ class ChildProgress {
       },
       completedLessons: {
         if (raw['completed'] case final List list) ...list.whereType<String>(),
+      },
+      coins: count('coins'),
+      heardLetters: {
+        if (raw['heard'] case final List list) ...list.whereType<String>(),
       },
     );
   }

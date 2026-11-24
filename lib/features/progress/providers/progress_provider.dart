@@ -36,6 +36,16 @@ class ProgressNotifier extends Notifier<Map<String, ChildProgress>> {
     (p) => p.copyWith(completedLessons: {...p.completedLessons, lessonName}),
   );
 
+  /// Adds time spent in a game to "Time Played".
+  Future<void> addPlayTime(String profileId, Duration played) async {
+    final seconds = played.inSeconds;
+    if (seconds <= 0) return;
+    await update(
+      profileId,
+      (p) => p.copyWith(secondsPlayed: p.secondsPlayed + seconds),
+    );
+  }
+
   /// Called when a profile is deleted so its progress doesn't linger.
   Future<void> forget(String profileId) async {
     if (!state.containsKey(profileId)) return;
