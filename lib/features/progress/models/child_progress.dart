@@ -21,6 +21,7 @@ class ChildProgress {
     this.coins = 0,
     this.heardLetters = const {},
     this.heardWords = const {},
+    this.matchedWords = const {},
   });
 
   static const empty = ChildProgress();
@@ -44,6 +45,9 @@ class ChildProgress {
 
   /// Haunted Forest words heard at least once, lowercase (`{'owl'}`).
   final Set<String> heardWords;
+
+  /// Word Matching pairs matched at least once, lowercase (`{'owl'}`).
+  final Set<String> matchedWords;
 
   double strength(Skill skill) => (strengths[skill] ?? 0).clamp(0.0, 1.0);
 
@@ -72,6 +76,7 @@ class ChildProgress {
     int? coins,
     Set<String>? heardLetters,
     Set<String>? heardWords,
+    Set<String>? matchedWords,
   }) {
     return ChildProgress(
       lettersLearned: lettersLearned ?? this.lettersLearned,
@@ -82,6 +87,7 @@ class ChildProgress {
       coins: coins ?? this.coins,
       heardLetters: heardLetters ?? this.heardLetters,
       heardWords: heardWords ?? this.heardWords,
+      matchedWords: matchedWords ?? this.matchedWords,
     );
   }
 
@@ -94,6 +100,7 @@ class ChildProgress {
     'coins': coins,
     'heard': heardLetters.toList(),
     'words_heard': heardWords.toList(),
+    'matched': matchedWords.toList(),
   };
 
   /// Bad or missing values become 0 so a corrupt save can't crash the app.
@@ -123,6 +130,9 @@ class ChildProgress {
       heardWords: {
         if (raw['words_heard'] case final List list)
           ...list.whereType<String>(),
+      },
+      matchedWords: {
+        if (raw['matched'] case final List list) ...list.whereType<String>(),
       },
     );
   }

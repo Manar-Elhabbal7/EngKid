@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:engkids/features/alphabet/screens/alphabet_screen.dart';
 import 'package:engkids/features/forest/screens/forest_screen.dart';
+import 'package:engkids/features/matching/screens/matching_screen.dart';
 import 'package:engkids/features/home/screens/home_screen.dart';
 import 'package:engkids/features/home/screens/parents_screen.dart';
 import 'package:engkids/features/home/screens/play_picker_screen.dart';
@@ -77,6 +78,12 @@ GoRouter createAppRouter({
         name: 'forest',
         pageBuilder: (context, state) =>
             _fadePage(key: state.pageKey, child: const ForestScreen()),
+      ),
+      GoRoute(
+        path: '/play/matching',
+        name: 'matching',
+        pageBuilder: (context, state) =>
+            _fadePage(key: state.pageKey, child: const MatchingScreen()),
       ),
       GoRoute(
         path: '/parents',

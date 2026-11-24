@@ -1,10 +1,9 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:engkids/app/theme.dart';
-import 'package:engkids/features/home/widgets/menu_pill_button.dart';
 import 'package:engkids/shared/widgets/boo_speech.dart';
 import 'package:engkids/shared/widgets/coin_burst.dart';
+import 'package:engkids/shared/widgets/lesson_next_controls.dart';
 
 /// Layout shared by the lessons: Boo with his speech bubble, the lesson's
 /// main picture ([prop]), the "+5" coin burst, and the Next button.
@@ -57,29 +56,12 @@ class LessonStage extends StatelessWidget {
     ],
   );
 
-  Widget _controls(BuildContext context) => Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      MenuPillButton(
-        label: isLast ? 'Finish' : 'Next',
-        icon: isLast ? Icons.emoji_events_rounded : Icons.arrow_forward_rounded,
-        fill: HalloweenColors.playGreen,
-        shadow: HalloweenColors.playGreenDark,
-        foreground: Colors.white,
-        fontSize: 26,
-        // Disabled (dimmed) until the current item has been heard.
-        onPressed: heard ? onNext : null,
-      ),
-      const SizedBox(height: 6),
-      Text(
-        '$number / $total',
-        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-          color: HalloweenColors.cream,
-          fontSize: 18,
-          shadows: const [Shadow(color: Color(0xCC1A0030), blurRadius: 6)],
-        ),
-      ),
-    ],
+  Widget _controls(BuildContext context) => LessonNextControls(
+    isLast: isLast,
+    // Disabled (dimmed) until the current item has been heard.
+    enabled: heard,
+    counter: '$number / $total',
+    onNext: onNext,
   );
 
   @override

@@ -19,6 +19,7 @@ class PlayPickerScreen extends ConsumerWidget {
   static const _routes = {
     Lesson.alphabet: '/play/alphabet',
     Lesson.forest: '/play/forest',
+    Lesson.matching: '/play/matching',
   };
 
   void _open(BuildContext context, WidgetRef ref, Lesson lesson) {
