@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:engkids/features/home/screens/home_screen.dart';
 import 'package:engkids/features/home/screens/parents_screen.dart';
 import 'package:engkids/features/home/screens/play_picker_screen.dart';
+import 'package:engkids/features/profiles/screens/profile_picker_screen.dart';
 import 'package:engkids/features/splash/screens/splash_screen.dart';
 
 bool splashCompleted = false;
@@ -50,6 +51,12 @@ GoRouter createAppRouter({
         name: 'home',
         pageBuilder: (context, state) =>
             _fadePage(key: state.pageKey, child: const HomeScreen()),
+      ),
+      GoRoute(
+        path: '/profiles',
+        name: 'profiles',
+        pageBuilder: (context, state) =>
+            _fadePage(key: state.pageKey, child: const ProfilePickerScreen()),
       ),
       GoRoute(
         path: '/play',

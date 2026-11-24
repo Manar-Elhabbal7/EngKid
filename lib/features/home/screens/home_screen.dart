@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:engkids/app/theme.dart';
 import 'package:engkids/features/home/widgets/menu_pill_button.dart';
 import 'package:engkids/features/home/widgets/mute_button.dart';
-import 'package:engkids/features/home/widgets/wooden_sign.dart';
 import 'package:engkids/features/splash/widgets/firefly_layer.dart';
 import 'package:engkids/shared/audio/audio_service.dart';
 
@@ -87,7 +86,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                                     ref
                                         .read(audioServiceProvider)
                                         .playSfx('audio/sparkle.mp3');
-                                    context.go('/play');
+                                    context.go('/profiles');
                                   },
                                 ),
                                 const SizedBox(height: 14),

@@ -4,10 +4,25 @@ import 'package:go_router/go_router.dart';
 
 import 'package:engkids/app/router.dart';
 import 'package:engkids/app/theme.dart';
+import 'package:engkids/features/profiles/data/profile_store.dart';
+import 'package:engkids/features/profiles/providers/profiles_provider.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: EngKidsApp()));
+  // Profiles are saved on the device. If storage can't be opened, the app
+  // still runs with in-memory profiles (Boo is always available).
+  ProfileStore store;
+  try {
+    store = await HiveProfileStore.open();
+  } catch (_) {
+    store = MemoryProfileStore();
+  }
+  runApp(
+    ProviderScope(
+      overrides: [profileStoreProvider.overrideWithValue(store)],
+      child: const EngKidsApp(),
+    ),
+  );
 }
 
 class EngKidsApp extends StatefulWidget {

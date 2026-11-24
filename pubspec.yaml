@@ -52,6 +52,7 @@ flutter:
   assets:
     - assets/audio/
     - assets/images/
+    - assets/images/avatars/
 
   fonts:
     - family: Baloo2

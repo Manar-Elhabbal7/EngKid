@@ -18,18 +18,12 @@ class AudioService extends ChangeNotifier {
   AudioService({AudioPlayer? music, AudioPlayer? sfx})
     : _music = music ?? AudioPlayer(),
       _sfx = sfx ?? AudioPlayer() {
-    _musicSub = _music.onPlayerStateChanged.listen(
-      (state) {
-        if (muted && state == PlayerState.playing) _silenceMusic();
-      },
-      onError: (Object _) {},
-    );
-    _sfxSub = _sfx.onPlayerStateChanged.listen(
-      (state) {
-        if (muted && state == PlayerState.playing) _silenceSfx();
-      },
-      onError: (Object _) {},
-    );
+    _musicSub = _music.onPlayerStateChanged.listen((state) {
+      if (muted && state == PlayerState.playing) _silenceMusic();
+    }, onError: (Object _) {});
+    _sfxSub = _sfx.onPlayerStateChanged.listen((state) {
+      if (muted && state == PlayerState.playing) _silenceSfx();
+    }, onError: (Object _) {});
   }
 
   final AudioPlayer _music;

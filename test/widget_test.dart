@@ -7,6 +7,7 @@ import 'package:engkids/app/theme.dart';
 import 'package:engkids/features/home/screens/home_screen.dart';
 import 'package:engkids/features/home/screens/parents_screen.dart';
 import 'package:engkids/features/home/screens/play_picker_screen.dart';
+import 'package:engkids/features/profiles/screens/profile_picker_screen.dart';
 import 'package:engkids/features/splash/screens/splash_screen.dart';
 
 Widget _app(GoRouter router) {
@@ -41,11 +42,17 @@ void main() {
     );
   });
 
-  testWidgets('home welcome shows play, parents, and mute', (tester) async {
+  testWidgets('home shows play, parents, mute; play opens profiles', (
+    tester,
+  ) async {
     final router = GoRouter(
       initialLocation: '/home',
       routes: [
         GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
+        GoRoute(
+          path: '/profiles',
+          builder: (context, state) => const ProfilePickerScreen(),
+        ),
         GoRoute(
           path: '/play',
           builder: (context, state) => const PlayPickerScreen(),
@@ -60,7 +67,6 @@ void main() {
     await tester.pumpWidget(_app(router));
     await tester.pump();
 
-    expect(find.text("Let's learn some magic!"), findsOneWidget);
     expect(find.text('Play'), findsOneWidget);
     expect(find.text('Parents'), findsOneWidget);
     expect(find.byTooltip('Mute music'), findsOneWidget);
@@ -68,6 +74,6 @@ void main() {
     await tester.tap(find.text('Play'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 350));
-    expect(find.text('Choose a game'), findsOneWidget);
+    expect(find.text('Who is playing today?'), findsOneWidget);
   });
 }
