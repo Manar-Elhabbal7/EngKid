@@ -177,7 +177,7 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 350));
 
-      expect(container.read(currentProfileIdProvider), Profile.booId);
+      expect(container.read(currentProfileProvider).id, Profile.booId);
       expect(find.text('games'), findsOneWidget);
     });
     testWidgets('Boo has no delete button', (tester) async {

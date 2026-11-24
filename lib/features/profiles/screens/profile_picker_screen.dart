@@ -39,7 +39,7 @@ class _ProfilePickerScreenState extends ConsumerState<ProfilePickerScreen>
 
   void _choose(Profile profile) {
     ref.read(audioServiceProvider).playSfx('audio/sparkle.mp3');
-    ref.read(currentProfileIdProvider.notifier).state = profile.id;
+    ref.read(currentProfileIdProvider.notifier).select(profile.id);
     context.go('/play');
   }
 
@@ -61,9 +61,9 @@ class _ProfilePickerScreenState extends ConsumerState<ProfilePickerScreen>
     );
     if (confirmed != true || !mounted) return;
     audio.playSfx('audio/woo.mp3');
+    // If this was the chosen player, the dashboard falls back to the
+    // remaining player (or Boo) on its own.
     await ref.read(profilesProvider.notifier).remove(profile.id);
-    final current = ref.read(currentProfileIdProvider.notifier);
-    if (current.state == profile.id) current.state = Profile.booId;
   }
 
   @override

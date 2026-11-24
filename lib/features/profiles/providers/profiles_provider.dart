@@ -13,17 +13,30 @@ final profilesProvider = NotifierProvider<ProfilesNotifier, List<Profile>>(
   ProfilesNotifier.new,
 );
 
-/// The player picked on the "Who is playing today?" screen.
-final currentProfileIdProvider = StateProvider<String>((ref) => Profile.booId);
+/// Id of the player picked on "Who is playing today?". Saved on the device,
+/// so it survives restarts. Null until someone is picked.
+final currentProfileIdProvider =
+    NotifierProvider<CurrentProfileIdNotifier, String?>(
+      CurrentProfileIdNotifier.new,
+    );
 
-/// The chosen player, or Boo when nobody has been picked yet
-/// (or the picked player was deleted).
+/// The chosen player. If nobody was picked, or the picked player was
+/// deleted, it's the first saved player, and Boo only when there are none.
 final currentProfileProvider = Provider<Profile>((ref) {
   final id = ref.watch(currentProfileIdProvider);
-  return ref
-      .watch(profilesProvider)
-      .firstWhere((p) => p.id == id, orElse: () => Profile.boo);
+  final profiles = ref.watch(profilesProvider);
+  return profiles.firstWhere((p) => p.id == id, orElse: () => profiles.first);
 });
+
+class CurrentProfileIdNotifier extends Notifier<String?> {
+  @override
+  String? build() => ref.read(profileStoreProvider).loadCurrentId();
+
+  Future<void> select(String id) async {
+    state = id;
+    await ref.read(profileStoreProvider).saveCurrentId(id);
+  }
+}
 
 class ProfilesNotifier extends Notifier<List<Profile>> {
   static const maxProfiles = 2;

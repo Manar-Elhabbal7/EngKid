@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import 'package:engkids/app/theme.dart';
 import 'package:engkids/features/home/widgets/menu_pill_button.dart';
-import 'package:engkids/features/home/widgets/wooden_sign.dart';
 import 'package:engkids/features/parents/widgets/dashboard_profile.dart';
 import 'package:engkids/features/parents/widgets/parchment_panel.dart';
 import 'package:engkids/features/parents/widgets/rename_dialog.dart';

@@ -5,6 +5,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 abstract interface class ProfileStore {
   List<Object?> load();
   Future<void> save(List<Map<String, String>> profiles);
+
+  /// The player last chosen on "Who is playing today?", if any.
+  String? loadCurrentId();
+  Future<void> saveCurrentId(String id);
 }
 
 /// Used in tests and as a fallback when local storage can't be opened.
@@ -13,6 +17,7 @@ class MemoryProfileStore implements ProfileStore {
     : _data = [...?initial];
 
   List<Map<String, String>> _data;
+  String? _currentId;
 
   @override
   List<Object?> load() => List.of(_data);
@@ -21,6 +26,12 @@ class MemoryProfileStore implements ProfileStore {
   Future<void> save(List<Map<String, String>> profiles) async {
     _data = List.of(profiles);
   }
+
+  @override
+  String? loadCurrentId() => _currentId;
+
+  @override
+  Future<void> saveCurrentId(String id) async => _currentId = id;
 }
 
 /// Persists profiles on the device so they survive app restarts.
@@ -29,6 +40,7 @@ class HiveProfileStore implements ProfileStore {
 
   static const boxName = 'engkids';
   static const _key = 'profiles';
+  static const _currentKey = 'current_profile';
 
   final Box<dynamic> _box;
 
@@ -47,4 +59,13 @@ class HiveProfileStore implements ProfileStore {
   @override
   Future<void> save(List<Map<String, String>> profiles) =>
       _box.put(_key, profiles);
+
+  @override
+  String? loadCurrentId() {
+    final raw = _box.get(_currentKey);
+    return raw is String ? raw : null;
+  }
+
+  @override
+  Future<void> saveCurrentId(String id) => _box.put(_currentKey, id);
 }

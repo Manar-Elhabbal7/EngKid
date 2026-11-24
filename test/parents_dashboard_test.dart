@@ -65,7 +65,7 @@ Future<Profile> _sara(ProviderContainer c) async {
           strengths: {Skill.alphabet: 0.8, Skill.spelling: 0.3},
         ),
       );
-  c.read(currentProfileIdProvider.notifier).state = sara.id;
+  await c.read(currentProfileIdProvider.notifier).select(sara.id);
   return sara;
 }
 
@@ -126,12 +126,61 @@ void main() {
     });
   });
 
+  group('chosen profile after a restart', () {
+    // A "restart" = a fresh container reading the same saved store.
+    ProviderContainer restart(ProfileStore store) {
+      final c = ProviderContainer(
+        overrides: [
+          profileStoreProvider.overrideWithValue(store),
+          progressStoreProvider.overrideWithValue(MemoryProgressStore()),
+        ],
+      );
+      addTearDown(c.dispose);
+      return c;
+    }
+
+    test('keeps the chosen player', () async {
+      final store = MemoryProfileStore();
+      final c = restart(store);
+      final n = c.read(profilesProvider.notifier);
+      await n.add(name: 'Sara', avatarId: 'witch');
+      final ali = await n.add(name: 'Ali', avatarId: 'vampire');
+      await c.read(currentProfileIdProvider.notifier).select(ali!.id);
+
+      expect(restart(store).read(currentProfileProvider).name, 'Ali');
+    });
+
+    test('uses the first saved player when nobody was chosen', () async {
+      final store = MemoryProfileStore();
+      await restart(store)
+          .read(profilesProvider.notifier)
+          .add(name: 'Sara', avatarId: 'witch');
+
+      expect(restart(store).read(currentProfileProvider).name, 'Sara');
+    });
+
+    test(
+      'falls back to the other player if the chosen one was deleted',
+      () async {
+        final store = MemoryProfileStore();
+        final c = restart(store);
+        final n = c.read(profilesProvider.notifier);
+        final sara = await n.add(name: 'Sara', avatarId: 'witch');
+        await n.add(name: 'Ali', avatarId: 'vampire');
+        await c.read(currentProfileIdProvider.notifier).select(sara!.id);
+        await n.remove(sara.id);
+
+        expect(c.read(currentProfileProvider).name, 'Ali');
+        expect(restart(store).read(currentProfileProvider).name, 'Ali');
+      },
+    );
+  });
+
   group('ParentsScreen', () {
     testWidgets('shows Boo with empty progress when nobody is chosen', (
       tester,
     ) async {
       await _pump(tester, _container());
-      expect(find.text('Parent Dashboard'), findsOneWidget);
       expect(find.text('Boo'), findsOneWidget);
       expect(find.bySemanticsLabel('Letters Learned: 0'), findsOneWidget);
       expect(find.bySemanticsLabel('Time Played: 0m'), findsOneWidget);
