@@ -22,6 +22,7 @@ class ChildProgress {
     this.heardLetters = const {},
     this.heardWords = const {},
     this.matchedWords = const {},
+    this.spelledWords = const {},
   });
 
   static const empty = ChildProgress();
@@ -48,6 +49,9 @@ class ChildProgress {
 
   /// Word Matching pairs matched at least once, lowercase (`{'owl'}`).
   final Set<String> matchedWords;
+
+  /// Spell-It Quiz words spelled at least once, lowercase (`{'owl'}`).
+  final Set<String> spelledWords;
 
   double strength(Skill skill) => (strengths[skill] ?? 0).clamp(0.0, 1.0);
 
@@ -77,6 +81,7 @@ class ChildProgress {
     Set<String>? heardLetters,
     Set<String>? heardWords,
     Set<String>? matchedWords,
+    Set<String>? spelledWords,
   }) {
     return ChildProgress(
       lettersLearned: lettersLearned ?? this.lettersLearned,
@@ -88,6 +93,7 @@ class ChildProgress {
       heardLetters: heardLetters ?? this.heardLetters,
       heardWords: heardWords ?? this.heardWords,
       matchedWords: matchedWords ?? this.matchedWords,
+      spelledWords: spelledWords ?? this.spelledWords,
     );
   }
 
@@ -101,6 +107,7 @@ class ChildProgress {
     'heard': heardLetters.toList(),
     'words_heard': heardWords.toList(),
     'matched': matchedWords.toList(),
+    'spelled': spelledWords.toList(),
   };
 
   /// Bad or missing values become 0 so a corrupt save can't crash the app.
@@ -133,6 +140,9 @@ class ChildProgress {
       },
       matchedWords: {
         if (raw['matched'] case final List list) ...list.whereType<String>(),
+      },
+      spelledWords: {
+        if (raw['spelled'] case final List list) ...list.whereType<String>(),
       },
     );
   }
