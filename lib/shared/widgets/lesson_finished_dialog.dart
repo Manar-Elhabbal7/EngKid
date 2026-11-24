@@ -1,29 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:engkids/app/theme.dart';
-import 'package:engkids/features/alphabet/widgets/boo_speech.dart';
-import 'package:engkids/features/alphabet/widgets/coin_counter.dart';
 import 'package:engkids/features/lessons/models/lesson.dart';
+import 'package:engkids/shared/widgets/boo_speech.dart';
+import 'package:engkids/shared/widgets/coin_counter.dart';
 
-/// Shown after the last letter. [bonus] is 0 when the alphabet was already
-/// finished before, so the bonus line and "now open" line are hidden.
-class AlphabetFinishedDialog extends StatelessWidget {
-  const AlphabetFinishedDialog({super.key, required this.bonus});
+/// Shown when a lesson's last item is done. [bonus] is 0 when the lesson
+/// was already finished before, so the bonus and "now open" lines hide.
+class LessonFinishedDialog extends StatelessWidget {
+  const LessonFinishedDialog({
+    super.key,
+    required this.lesson,
+    required this.message,
+    required this.bonus,
+  });
 
+  /// The lesson just finished; the one after it is announced as open.
+  final Lesson lesson;
+
+  /// e.g. "You learned all 26 letters!"
+  final String message;
   final int bonus;
 
-  static Future<void> show(BuildContext context, int bonus) {
+  static Future<void> show(
+    BuildContext context, {
+    required Lesson lesson,
+    required String message,
+    required int bonus,
+  }) {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (_) => AlphabetFinishedDialog(bonus: bonus),
+      builder: (_) =>
+          LessonFinishedDialog(lesson: lesson, message: message, bonus: bonus),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
-    final next = Lesson.alphabet.index + 1 < Lesson.values.length
-        ? Lesson.values[Lesson.alphabet.index + 1]
+    final next = lesson.index + 1 < Lesson.values.length
+        ? Lesson.values[lesson.index + 1]
         : null;
     return Dialog(
       backgroundColor: HalloweenColors.castlePurple,
@@ -36,7 +52,7 @@ class AlphabetFinishedDialog extends StatelessWidget {
             const FloatingBoo(size: 120),
             const SizedBox(height: 8),
             Text(
-              'You learned all 26 letters!',
+              message,
               textAlign: TextAlign.center,
               style: text.headlineMedium?.copyWith(fontSize: 26),
             ),

@@ -19,6 +19,9 @@ abstract interface class LetterVoice {
   /// Returns false if it was stopped before the end.
   Future<bool> say(AlphabetLetter letter);
 
+  /// Says a word (e.g. a Haunted Forest word) with text-to-speech.
+  Future<bool> sayWord(String word);
+
   Future<void> stop();
 }
 
@@ -35,7 +38,14 @@ class DeviceLetterVoice implements LetterVoice {
   Completer<void>? _cancel;
 
   @override
-  Future<bool> say(AlphabetLetter letter) async {
+  Future<bool> say(AlphabetLetter letter) =>
+      _play(asset: letter.audioAsset, spoken: letter.spoken);
+
+  @override
+  Future<bool> sayWord(String word) => _play(spoken: '$word.');
+
+  /// Plays [asset] if it's in the app, otherwise speaks [spoken].
+  Future<bool> _play({String? asset, required String spoken}) async {
     await stop();
     final mine = ++_generation;
     final cancel = _cancel = Completer<void>();
@@ -44,19 +54,20 @@ class DeviceLetterVoice implements LetterVoice {
         Future.any([playing, cancel.future])
             .timeout(const Duration(seconds: 10));
     try {
-      final file = letter.audioAsset;
-      if ((await (_recorded ??= _listRecorded())).contains(file)) {
+      final file = asset;
+      if (file != null &&
+          (await (_recorded ??= _listRecorded())).contains(file)) {
         final done = _player.onPlayerComplete.first;
         await _player.play(AssetSource(file.substring('assets/'.length)));
         await untilDone(done);
       } else {
         await (_ttsReady ??= _setUpTts());
-        await untilDone(_tts.speak(letter.spoken));
+        await untilDone(_tts.speak(spoken));
       }
     } catch (e) {
       // No voice available on this device: don't block the child's
-      // learning, the letter is still on screen.
-      debugPrint('[LetterVoice] could not play ${letter.letter}: $e');
+      // learning, the letter or word is still on screen.
+      debugPrint('[LetterVoice] could not play "$spoken": $e');
     }
     return mine == _generation;
   }

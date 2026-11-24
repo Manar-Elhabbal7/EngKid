@@ -20,6 +20,7 @@ class ChildProgress {
     this.completedLessons = const {},
     this.coins = 0,
     this.heardLetters = const {},
+    this.heardWords = const {},
   });
 
   static const empty = ChildProgress();
@@ -40,6 +41,9 @@ class ChildProgress {
   /// Letters heard at least once, lowercase (`{'a', 'b'}`). Used so coins
   /// are only given the first time.
   final Set<String> heardLetters;
+
+  /// Haunted Forest words heard at least once, lowercase (`{'owl'}`).
+  final Set<String> heardWords;
 
   double strength(Skill skill) => (strengths[skill] ?? 0).clamp(0.0, 1.0);
 
@@ -67,6 +71,7 @@ class ChildProgress {
     Set<String>? completedLessons,
     int? coins,
     Set<String>? heardLetters,
+    Set<String>? heardWords,
   }) {
     return ChildProgress(
       lettersLearned: lettersLearned ?? this.lettersLearned,
@@ -76,6 +81,7 @@ class ChildProgress {
       completedLessons: completedLessons ?? this.completedLessons,
       coins: coins ?? this.coins,
       heardLetters: heardLetters ?? this.heardLetters,
+      heardWords: heardWords ?? this.heardWords,
     );
   }
 
@@ -87,6 +93,7 @@ class ChildProgress {
     'completed': completedLessons.toList(),
     'coins': coins,
     'heard': heardLetters.toList(),
+    'words_heard': heardWords.toList(),
   };
 
   /// Bad or missing values become 0 so a corrupt save can't crash the app.
@@ -112,6 +119,10 @@ class ChildProgress {
       coins: count('coins'),
       heardLetters: {
         if (raw['heard'] case final List list) ...list.whereType<String>(),
+      },
+      heardWords: {
+        if (raw['words_heard'] case final List list)
+          ...list.whereType<String>(),
       },
     );
   }

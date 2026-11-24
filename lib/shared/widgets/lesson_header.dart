@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:engkids/app/theme.dart';
-import 'package:engkids/features/alphabet/widgets/coin_counter.dart';
+import 'package:engkids/shared/widgets/coin_counter.dart';
 import 'package:engkids/features/home/widgets/wooden_sign.dart';
 
-/// Back button · "Alphabet Adventure" sign · coin counter.
-class AlphabetHeader extends StatelessWidget {
-  const AlphabetHeader({super.key, required this.coins, required this.onBack});
+/// Lesson app bar: back button · wooden title sign · coin counter.
+class LessonHeader extends StatelessWidget {
+  const LessonHeader({
+    super.key,
+    required this.title,
+    required this.coins,
+    required this.onBack,
+  });
+
+  final String title;
 
   final int coins;
   final VoidCallback onBack;
@@ -55,10 +62,8 @@ class AlphabetHeader extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 10),
-        const Expanded(
-          child: Center(
-            child: WoodenSign(message: 'Alphabet Adventure', compact: true),
-          ),
+        Expanded(
+          child: Center(child: WoodenSign(message: title, compact: true)),
         ),
         const SizedBox(width: 10),
         CoinCounter(coins: coins),

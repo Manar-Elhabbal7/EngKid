@@ -2,56 +2,50 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:engkids/app/theme.dart';
-import 'package:engkids/features/alphabet/models/alphabet.dart';
-import 'package:engkids/features/alphabet/widgets/boo_speech.dart';
-import 'package:engkids/features/alphabet/widgets/coin_burst.dart';
-import 'package:engkids/features/alphabet/widgets/letter_pumpkin.dart';
 import 'package:engkids/features/home/widgets/menu_pill_button.dart';
+import 'package:engkids/shared/widgets/boo_speech.dart';
+import 'package:engkids/shared/widgets/coin_burst.dart';
 
-/// Boo, his speech bubble, the letter pumpkin and the Next button.
-/// Portrait follows the mockup; landscape puts the three side by side.
-class AlphabetStage extends StatelessWidget {
-  const AlphabetStage({
+/// Layout shared by the lessons: Boo with his speech bubble, the lesson's
+/// main picture ([prop]), the "+5" coin burst, and the Next button.
+/// Portrait follows the Alphabet mockup; landscape puts them side by side.
+class LessonStage extends StatelessWidget {
+  const LessonStage({
     super.key,
     required this.wide,
-    required this.letter,
+    required this.prop,
     required this.number,
+    required this.total,
     required this.bubble,
-    required this.speaking,
     required this.heard,
     required this.isLast,
     required this.burstId,
     required this.burstCoins,
-    required this.onPumpkinTap,
     required this.onNext,
   });
 
   final bool wide;
-  final AlphabetLetter letter;
-  final int number;
-  final String bubble;
-  final bool speaking;
 
-  /// Whether this child has already heard [letter]; Next waits for it.
+  /// Builds the pumpkin / card at the given size.
+  final Widget Function(double size) prop;
+  final int number;
+  final int total;
+  final String bubble;
+
+  /// Whether the current item was heard; Next waits for it.
   final bool heard;
   final bool isLast;
   final int burstId;
   final int burstCoins;
-  final VoidCallback onPumpkinTap;
   final VoidCallback onNext;
 
-  Widget _pumpkin(double size) => Stack(
+  Widget _prop(double size) => Stack(
     clipBehavior: Clip.none,
     alignment: Alignment.topCenter,
     children: [
-      LetterPumpkin(
-        letter: letter,
-        size: size,
-        speaking: speaking,
-        onTap: onPumpkinTap,
-      ),
+      prop(size),
       if (burstId > 0)
-        // left/right keep the burst's width bounded to the pumpkin.
+        // left/right keep the burst's width bounded to the prop.
         Positioned(
           top: size * 0.1,
           left: 0,
@@ -73,12 +67,12 @@ class AlphabetStage extends StatelessWidget {
         shadow: HalloweenColors.playGreenDark,
         foreground: Colors.white,
         fontSize: 26,
-        // Disabled (dimmed) until the letter has been heard.
+        // Disabled (dimmed) until the current item has been heard.
         onPressed: heard ? onNext : null,
       ),
       const SizedBox(height: 6),
       Text(
-        '$number / ${Alphabet.letters.length}',
+        '$number / $total',
         style: Theme.of(context).textTheme.titleLarge?.copyWith(
           color: HalloweenColors.cream,
           fontSize: 18,
@@ -93,7 +87,7 @@ class AlphabetStage extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, box) {
         if (wide) {
-          final pumpkin = math.min(box.maxHeight * 0.85, box.maxWidth * 0.38);
+          final size = math.min(box.maxHeight * 0.85, box.maxWidth * 0.38);
           return Row(
             children: [
               Expanded(
@@ -106,12 +100,12 @@ class AlphabetStage extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(flex: 4, child: Center(child: _pumpkin(pumpkin))),
+              Expanded(flex: 4, child: Center(child: _prop(size))),
               Expanded(flex: 3, child: Center(child: _controls(context))),
             ],
           );
         }
-        final pumpkin = math.min(box.maxWidth * 0.62, box.maxHeight * 0.52);
+        final size = math.min(box.maxWidth * 0.62, box.maxHeight * 0.52);
         return Column(
           children: [
             const Spacer(),
@@ -120,13 +114,12 @@ class AlphabetStage extends StatelessWidget {
               child: SpeechBubble(text: bubble),
             ),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
                   flex: 4,
                   child: FloatingBoo(size: box.maxWidth * 0.36),
                 ),
-                Expanded(flex: 6, child: Center(child: _pumpkin(pumpkin))),
+                Expanded(flex: 6, child: Center(child: _prop(size))),
               ],
             ),
             const Spacer(),

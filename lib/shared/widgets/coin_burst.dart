@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:engkids/features/alphabet/widgets/coin_counter.dart';
+import 'package:engkids/shared/widgets/coin_counter.dart';
 
 /// "+5" with a coin that rises and fades. Give it a new [key] each time
 /// coins are earned so the animation plays again.

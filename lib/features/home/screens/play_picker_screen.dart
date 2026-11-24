@@ -16,7 +16,10 @@ class PlayPickerScreen extends ConsumerWidget {
   const PlayPickerScreen({super.key});
 
   /// Where each open lesson leads. Lessons without a screen yet aren't listed.
-  static const _routes = {Lesson.alphabet: '/play/alphabet'};
+  static const _routes = {
+    Lesson.alphabet: '/play/alphabet',
+    Lesson.forest: '/play/forest',
+  };
 
   void _open(BuildContext context, WidgetRef ref, Lesson lesson) {
     final route = _routes[lesson];

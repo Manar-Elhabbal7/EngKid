@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,25 +16,7 @@ import 'package:engkids/features/progress/providers/progress_provider.dart';
 import 'package:engkids/shared/audio/audio_service.dart';
 import 'package:engkids/shared/audio/letter_voice.dart';
 
-/// A voice the test finishes by hand, like a letter that takes time to say.
-class FakeVoice implements LetterVoice {
-  Completer<bool>? _playing;
-  final said = <String>[];
-
-  @override
-  Future<bool> say(AlphabetLetter letter) {
-    said.add(letter.letter);
-    return (_playing = Completer<bool>()).future;
-  }
-
-  void finish() => _playing?.complete(true);
-
-  @override
-  Future<void> stop() async {
-    final p = _playing;
-    if (p != null && !p.isCompleted) p.complete(false);
-  }
-}
+import 'helpers/fake_voice.dart';
 
 AlphabetLetter _l(String s) =>
     Alphabet.letters.firstWhere((l) => l.letter == s);
