@@ -124,6 +124,12 @@ This project was built entirely with **Kiro IDE** using spec-driven development:
 
 - **Letter voices** (`assets/audio/letters/A.mp3` … `Z.mp3`): recordings from
   [Show and Tell Letter](https://www.showandtellletter.com/letters).
+- **Haunted Forest word voices** (`assets/audio/words/*.mp3`): pronunciations
+  from [Forvo](https://forvo.com), recorded by Forvo community members.
+  Forvo pronunciations are licensed under
+  [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/)
+  (credit required, non-commercial use only, share-alike). These audio files
+  are not covered by this project's MIT license.
 
 ## 📄 License
 

@@ -10,6 +10,9 @@ class ForestWord {
 
   /// Lowercase key used when saving progress.
   String get key => word.toLowerCase();
+
+  /// Recorded voice, e.g. `assets/audio/words/owl.mp3`.
+  String get audioAsset => 'assets/audio/words/$key.mp3';
 }
 
 abstract final class Forest {

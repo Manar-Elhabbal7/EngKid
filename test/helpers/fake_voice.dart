@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:engkids/features/alphabet/models/alphabet.dart';
+import 'package:engkids/features/forest/models/forest.dart';
 import 'package:engkids/shared/audio/letter_voice.dart';
 
 /// A voice the test finishes by hand, like a letter that takes time to say.
@@ -15,8 +16,8 @@ class FakeVoice implements LetterVoice {
   }
 
   @override
-  Future<bool> sayWord(String word) {
-    said.add(word);
+  Future<bool> sayWord(ForestWord word) {
+    said.add(word.word);
     return (_playing = Completer<bool>()).future;
   }
 

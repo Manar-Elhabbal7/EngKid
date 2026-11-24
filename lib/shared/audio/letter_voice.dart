@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:engkids/features/alphabet/models/alphabet.dart';
+import 'package:engkids/features/forest/models/forest.dart';
 
 /// Overridden with a fake in tests.
 final letterVoiceProvider = Provider<LetterVoice>((ref) {
@@ -19,17 +20,17 @@ abstract interface class LetterVoice {
   /// Returns false if it was stopped before the end.
   Future<bool> say(AlphabetLetter letter);
 
-  /// Says a word (e.g. a Haunted Forest word) with text-to-speech.
-  Future<bool> sayWord(String word);
+  /// Says a Haunted Forest word from its recording (text-to-speech if the
+  /// file is missing).
+  Future<bool> sayWord(ForestWord word);
 
   Future<void> stop();
 }
 
-/// Plays the recorded `assets/audio/letters/A.mp3` … `Z.mp3`.
-/// If a file is missing, the phone's text-to-speech says "A. A is for Apple."
+/// Plays the recorded letters (`assets/audio/letters/A.mp3` …) and forest
+/// words (`assets/audio/words/owl.mp3` …). If a file is missing, the
+/// phone's text-to-speech says it instead.
 class DeviceLetterVoice implements LetterVoice {
-  static const _folder = 'assets/audio/letters/';
-
   final _player = AudioPlayer();
   final _tts = FlutterTts();
   Future<Set<String>>? _recorded;
@@ -42,7 +43,8 @@ class DeviceLetterVoice implements LetterVoice {
       _play(asset: letter.audioAsset, spoken: letter.spoken);
 
   @override
-  Future<bool> sayWord(String word) => _play(spoken: '$word.');
+  Future<bool> sayWord(ForestWord word) =>
+      _play(asset: word.audioAsset, spoken: '${word.word}.');
 
   /// Plays [asset] if it's in the app, otherwise speaks [spoken].
   Future<bool> _play({String? asset, required String spoken}) async {
@@ -86,7 +88,10 @@ class DeviceLetterVoice implements LetterVoice {
   Future<Set<String>> _listRecorded() async {
     try {
       final manifest = await AssetManifest.loadFromAssetBundle(rootBundle);
-      return manifest.listAssets().where((a) => a.startsWith(_folder)).toSet();
+      return manifest
+          .listAssets()
+          .where((a) => a.startsWith('assets/audio/'))
+          .toSet();
     } catch (_) {
       return const {};
     }

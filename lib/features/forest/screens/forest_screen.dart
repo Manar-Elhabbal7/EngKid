@@ -34,7 +34,7 @@ class _ForestScreenState extends ConsumerState<ForestScreen>
   Future<void> _hear() {
     final word = _word;
     return listen(
-      play: (voice) => voice.sayWord(word.word),
+      play: (voice) => voice.sayWord(word),
       reward: () => earn((p) => p.withWordHeard(word)),
     );
   }

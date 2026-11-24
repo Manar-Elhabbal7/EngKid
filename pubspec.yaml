@@ -52,6 +52,7 @@ flutter:
   assets:
     - assets/audio/
     - assets/audio/letters/
+    - assets/audio/words/
     - assets/images/
     - assets/images/avatars/
 
