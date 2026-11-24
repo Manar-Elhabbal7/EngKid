@@ -26,10 +26,12 @@ class AlphabetScreen extends ConsumerStatefulWidget {
 
 class _AlphabetScreenState extends ConsumerState<AlphabetScreen>
     with WidgetsBindingObserver {
-  late final String _profileId = ref.read(currentProfileProvider).id;
-  late final ProgressNotifier _progress = ref.read(progressProvider.notifier);
-  late final LetterVoice _voice = ref.read(letterVoiceProvider);
-  late int _index = _progress.of(_profileId).alphabetResumeIndex;
+  // Captured once in initState: `ref` can't be used while the screen closes.
+  late final String _profileId;
+  late final ProgressNotifier _progress;
+  late final LetterVoice _voice;
+  late final AudioService _audio;
+  late int _index;
   final _clock = Stopwatch()..start();
 
   var _speaking = false;
@@ -43,7 +45,15 @@ class _AlphabetScreenState extends ConsumerState<AlphabetScreen>
   @override
   void initState() {
     super.initState();
+    _profileId = ref.read(currentProfileProvider).id;
+    _progress = ref.read(progressProvider.notifier);
+    _voice = ref.read(letterVoiceProvider);
+    _audio = ref.read(audioServiceProvider);
+    _index = _progress.of(_profileId).alphabetResumeIndex;
     WidgetsBinding.instance.addObserver(this);
+    // Focus time: no background music while learning letters, even when
+    // the app isn't muted. It comes back when the child leaves.
+    _audio.pauseTheme();
     // Muting while a letter plays stops it (and it won't count as heard).
     ref.listenManual(audioServiceProvider.select((a) => a.muted), (_, muted) {
       if (muted) _voice.stop();
@@ -65,8 +75,14 @@ class _AlphabetScreenState extends ConsumerState<AlphabetScreen>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _saveTime();
     _voice.stop();
+    _audio.resumeTheme();
+    // Save after this frame: changing progress while the screen is being
+    // removed would try to rebuild it.
+    final played = _clock.elapsed;
+    final progress = _progress;
+    final id = _profileId;
+    Future.microtask(() => progress.addPlayTime(id, played));
     super.dispose();
   }
 
@@ -78,7 +94,7 @@ class _AlphabetScreenState extends ConsumerState<AlphabetScreen>
 
   Future<void> _hear() async {
     if (_speaking) return;
-    final audio = ref.read(audioServiceProvider);
+    final audio = _audio;
     if (audio.muted) {
       setState(() => _mutedHint = true);
       return;
@@ -105,7 +121,7 @@ class _AlphabetScreenState extends ConsumerState<AlphabetScreen>
 
   Future<void> _next() async {
     _voice.stop();
-    final audio = ref.read(audioServiceProvider);
+    final audio = _audio;
     if (!_isLast) {
       audio.playSfx('audio/sparkle.mp3');
       setState(() {

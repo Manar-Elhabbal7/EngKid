@@ -217,13 +217,31 @@ void main() {
     testWidgets('muted: no sound, no coins, Boo asks to turn sound on', (
       tester,
     ) async {
-      await c.read(audioServiceProvider).toggleMute();
+      // Not awaited: tests have no audio device, so the player never answers.
+      c.read(audioServiceProvider).toggleMute();
       await pump(tester);
       await tester.tap(pumpkin('A'));
       await tester.pump();
       expect(voice.said, isEmpty);
       expect(find.text('Turn on the sound to hear me!'), findsOneWidget);
       expect(progress().coins, 0);
+    });
+
+    testWidgets('background music is off while learning, back after', (
+      tester,
+    ) async {
+      await pump(tester);
+      final audio = c.read(audioServiceProvider);
+      expect(audio.themePaused, isTrue);
+      expect(audio.muted, isFalse, reason: 'music off without muting');
+
+      await tester.tap(find.bySemanticsLabel('Back'));
+      await tester.pump();
+      // The alphabet page is removed once the page transition finishes.
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.text('games'), findsOneWidget);
+      expect(audio.themePaused, isFalse);
     });
 
     testWidgets('picks up where the child stopped', (tester) async {

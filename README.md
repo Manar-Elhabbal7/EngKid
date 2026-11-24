@@ -120,6 +120,11 @@ This project was built entirely with **Kiro IDE** using spec-driven development:
 
 ---
 
+## 🙏 Credits
+
+- **Letter voices** (`assets/audio/letters/A.mp3` … `Z.mp3`): recordings from
+  [Show and Tell Letter](https://www.showandtellletter.com/letters).
+
 ## 📄 License
 
 MIT — see [LICENSE](LICENSE).

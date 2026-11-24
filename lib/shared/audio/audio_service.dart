@@ -19,7 +19,9 @@ class AudioService extends ChangeNotifier {
     : _music = music ?? AudioPlayer(),
       _sfx = sfx ?? AudioPlayer() {
     _musicSub = _music.onPlayerStateChanged.listen((state) {
-      if (muted && state == PlayerState.playing) _silenceMusic();
+      if ((muted || _themePaused) && state == PlayerState.playing) {
+        _silenceMusic();
+      }
     }, onError: (Object _) {});
     _sfxSub = _sfx.onPlayerStateChanged.listen((state) {
       if (muted && state == PlayerState.playing) _silenceSfx();
@@ -43,9 +45,27 @@ class AudioService extends ChangeNotifier {
   /// In-flight theme start, shared so concurrent callers don't double-load.
   Future<void>? _themeLoading;
 
+  /// True while a lesson needs quiet (e.g. hearing letters). The theme
+  /// stays paused even if a screen asks for it, until [resumeTheme].
+  var _themePaused = false;
+  bool get themePaused => _themePaused;
+
+  /// Pauses the background music so the child can focus on a lesson.
+  /// Sound effects and lesson audio still play.
+  Future<void> pauseTheme() async {
+    _themePaused = true;
+    await _silenceMusic();
+  }
+
+  /// Brings the background music back after [pauseTheme], unless muted.
+  Future<void> resumeTheme() async {
+    _themePaused = false;
+    if (!muted) await playTheme();
+  }
+
   Future<void> playTheme() {
     if (_themeLoaded) {
-      return muted ? _silenceMusic() : _resumeMusic();
+      return muted || _themePaused ? _silenceMusic() : _resumeMusic();
     }
     return _themeLoading ??= _loadTheme();
   }
@@ -57,7 +77,7 @@ class AudioService extends ChangeNotifier {
       await _music.setSource(AssetSource(_themeAsset));
       _themeLoaded = true;
       // Re-check after loading: mute may have been tapped meanwhile.
-      if (!muted) await _resumeMusic();
+      if (!muted && !_themePaused) await _resumeMusic();
     } catch (_) {
       _themeLoaded = false;
     } finally {
@@ -92,7 +112,7 @@ class AudioService extends ChangeNotifier {
     try {
       await _music.setVolume(_themeVolume);
       await _music.resume();
-      if (muted) await _silenceMusic();
+      if (muted || _themePaused) await _silenceMusic();
     } catch (_) {}
   }
 

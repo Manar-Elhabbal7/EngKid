@@ -47,10 +47,12 @@ class AlphabetFinishedDialog extends StatelessWidget {
                 children: [
                   const CoinImage(size: 36),
                   const SizedBox(width: 8),
-                  Text(
-                    '+$bonus bonus coins',
-                    style: text.titleLarge?.copyWith(
-                      color: HalloweenColors.gold,
+                  Flexible(
+                    child: Text(
+                      '+$bonus bonus coins',
+                      style: text.titleLarge?.copyWith(
+                        color: HalloweenColors.gold,
+                      ),
                     ),
                   ),
                 ],
