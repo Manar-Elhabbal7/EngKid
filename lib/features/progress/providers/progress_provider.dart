@@ -30,6 +30,12 @@ class ProgressNotifier extends Notifier<Map<String, ChildProgress>> {
     ChildProgress Function(ChildProgress current) change,
   ) => _save({...state, profileId: change(of(profileId))});
 
+  /// For the games: mark a lesson finished, which opens the next one.
+  Future<void> markCompleted(String profileId, String lessonName) => update(
+    profileId,
+    (p) => p.copyWith(completedLessons: {...p.completedLessons, lessonName}),
+  );
+
   /// Called when a profile is deleted so its progress doesn't linger.
   Future<void> forget(String profileId) async {
     if (!state.containsKey(profileId)) return;

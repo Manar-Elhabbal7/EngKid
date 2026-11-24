@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:engkids/features/alphabet/screens/alphabet_screen.dart';
 import 'package:engkids/features/home/screens/home_screen.dart';
 import 'package:engkids/features/home/screens/parents_screen.dart';
 import 'package:engkids/features/home/screens/play_picker_screen.dart';
@@ -63,6 +64,12 @@ GoRouter createAppRouter({
         name: 'play',
         pageBuilder: (context, state) =>
             _fadePage(key: state.pageKey, child: const PlayPickerScreen()),
+      ),
+      GoRoute(
+        path: '/play/alphabet',
+        name: 'alphabet',
+        pageBuilder: (context, state) =>
+            _fadePage(key: state.pageKey, child: const AlphabetScreen()),
       ),
       GoRoute(
         path: '/parents',
