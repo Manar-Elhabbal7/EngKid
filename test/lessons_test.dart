@@ -84,6 +84,14 @@ void main() {
       }
     });
 
+    testWidgets('locked lessons show the padlock picture', (tester) async {
+      await _pump(tester, _container());
+      expect(
+        find.byType(LockedPadlock),
+        findsNWidgets(Lesson.values.length - 1),
+      );
+    });
+
     testWidgets('tapping a locked lesson says what to finish first', (
       tester,
     ) async {

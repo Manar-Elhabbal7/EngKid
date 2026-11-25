@@ -43,7 +43,7 @@ class PlayPickerScreen extends ConsumerWidget {
         duration: const Duration(seconds: 3),
         content: Row(
           children: [
-            const Icon(Icons.lock_rounded, color: HalloweenColors.gold),
+            const LockedPadlock(size: 36),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
@@ -201,9 +201,30 @@ class _LessonTile extends StatelessWidget {
                   color: HalloweenColors.playGreen,
                   size: 34,
                 )
-              : const Icon(Icons.lock_rounded, color: HalloweenColors.gold),
+              : const LockedPadlock(size: 40),
         ),
       ),
+    );
+  }
+}
+
+/// The rusty, cobwebbed padlock shown on lessons that aren't open yet.
+class LockedPadlock extends StatelessWidget {
+  const LockedPadlock({super.key, required this.size});
+
+  static const image = 'assets/images/locker.png';
+
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      image,
+      width: size,
+      height: size,
+      cacheWidth: 160,
+      fit: BoxFit.contain,
+      excludeFromSemantics: true,
     );
   }
 }

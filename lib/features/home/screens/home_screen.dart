@@ -44,13 +44,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            'assets/images/welcome_scene.jpg',
-            fit: BoxFit.cover,
-            alignment: const Alignment(0, -0.12),
-            filterQuality: FilterQuality.high,
-            semanticLabel: 'Boo the ghost waving in a Halloween forest',
-          ),
+          const _WelcomeScene(),
           AnimatedBuilder(
             animation: _twinkle,
             builder: (context, _) => FireflyLayer(t: _twinkle.value),
@@ -117,6 +111,56 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Tall screens (phones): the scene fills the screen, as before.
+/// Wide screens (web, landscape): a dimmed copy fills the screen and the
+/// whole scene sits centred on top, so Boo and the sign aren't zoomed in
+/// and cut off. Same approach as the splash screen.
+class _WelcomeScene extends StatelessWidget {
+  const _WelcomeScene();
+
+  static const _image = 'assets/images/welcome_scene.jpg';
+  static const _label = 'Boo the ghost waving in a Halloween forest';
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, box) {
+        if (box.maxWidth <= box.maxHeight) {
+          return Image.asset(
+            _image,
+            fit: BoxFit.cover,
+            alignment: const Alignment(0, -0.12),
+            filterQuality: FilterQuality.high,
+            semanticLabel: _label,
+          );
+        }
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            ColorFiltered(
+              colorFilter: const ColorFilter.mode(
+                Color(0x99120418),
+                BlendMode.srcATop,
+              ),
+              child: Image.asset(
+                _image,
+                fit: BoxFit.cover,
+                excludeFromSemantics: true,
+              ),
+            ),
+            Image.asset(
+              _image,
+              fit: BoxFit.contain,
+              filterQuality: FilterQuality.high,
+              semanticLabel: _label,
+            ),
+          ],
+        );
+      },
     );
   }
 }

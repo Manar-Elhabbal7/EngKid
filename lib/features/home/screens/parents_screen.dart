@@ -139,8 +139,8 @@ class ParentsScreen extends ConsumerWidget {
                                     fill: HalloweenColors.parentsCream,
                                     shadow: const Color(0xFFC9A36A),
                                     foreground: HalloweenColors.parentsBrown,
-                                    fontSize: 19,
-                                    iconSize: 22,
+                                    fontSize: 16,
+                                    iconSize: 20,
                                     onPressed: audio.toggleMute,
                                   ),
                                 ),
@@ -152,8 +152,8 @@ class ParentsScreen extends ConsumerWidget {
                                     fill: HalloweenColors.parentsCream,
                                     shadow: const Color(0xFFC9A36A),
                                     foreground: HalloweenColors.parentsBrown,
-                                    fontSize: 19,
-                                    iconSize: 22,
+                                    fontSize: 16,
+                                    iconSize: 20,
                                     onPressed: () {
                                       audio.playSfx('audio/creak.mp3');
                                       context.go('/profiles');

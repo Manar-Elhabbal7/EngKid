@@ -76,4 +76,30 @@ void main() {
     await tester.pump(const Duration(milliseconds: 350));
     expect(find.text('Who is playing today?'), findsOneWidget);
   });
+
+  testWidgets('home shows the whole welcome scene on a wide web window', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1440, 900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    final router = GoRouter(
+      initialLocation: '/home',
+      routes: [
+        GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
+      ],
+    );
+    await tester.pumpWidget(_app(router));
+    await tester.pump();
+    expect(tester.takeException(), isNull);
+    final scene = tester.widget<Image>(
+      find.byWidgetPredicate(
+        (w) =>
+            w is Image &&
+            w.semanticLabel == 'Boo the ghost waving in a Halloween forest',
+      ),
+    );
+    expect(scene.fit, BoxFit.contain, reason: 'whole scene, not zoomed in');
+    expect(find.text('Play'), findsOneWidget);
+  });
 }

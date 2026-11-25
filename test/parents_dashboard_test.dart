@@ -234,6 +234,13 @@ void main() {
       expect(find.text('profiles'), findsOneWidget);
     });
 
+    testWidgets('Sound and Manage Profiles fit a small phone', (tester) async {
+      await _pump(tester, _container(), size: const Size(320, 640));
+      expect(tester.takeException(), isNull);
+      expect(find.text('Manage Profiles'), findsOneWidget);
+      expect(find.text('Sound'), findsOneWidget);
+    });
+
     testWidgets('fits a landscape phone without overflow', (tester) async {
       final c = _container();
       await _sara(c);

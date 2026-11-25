@@ -61,7 +61,7 @@ class _MenuPillButtonState extends State<MenuPillButton> {
               duration: const Duration(milliseconds: 90),
               transform: Matrix4.translationValues(0, _pressed ? 4 : 0, 0),
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(40),
                 gradient: LinearGradient(
