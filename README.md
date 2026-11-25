@@ -1,122 +1,107 @@
-# 🎃 EngKids — Halloween English Learning App
+# 🎃 EngKids: Learn English in a Haunted Forest
 
-> **Kiroween 2026 Hackathon Entry** · Category: **Costume Contest**
+> **Kiroween 2026** · Category: **Costume Contest** · Built with **Kiro IDE**
 
-EngKids is a Flutter app that teaches English to children aged 4–8 through five
-Halloween-themed mini-games. Every interaction is wrapped in a polished spooky
-UI: a deep-purple haunted mansion, pumpkin-orange glow buttons, and "Boo" the
-friendly ghost mascot who guides kids through every activity.
+EngKids teaches English to children aged 4–8. Boo, a friendly ghost, guides
+them through five Halloween lessons, from hearing their first letters to
+brewing a potion by listening for words. The spooky design does the teaching:
+letters glow on pumpkins, words hide on forest cards, and ingredients splash
+into a cauldron. Children who can't read yet can follow along by sound and
+pictures alone.
+
+**Live app:** _add Vercel URL_ · **🎬 Demo video:** _add YouTube URL_ ·
+**Android APK:** [Releases](https://github.com/Manar-Elhabbal7/EngKid/releases)
 
 ---
 
-## 🏚️ Features
+## ✅ Hackathon eligibility
 
-| Activity | What kids learn |
+| Requirement | How EngKids meets it |
 |---|---|
-| 🎃 **Alphabet Adventure** | Letters A–Z with example words and TTS pronunciation |
-| 👻 **Vocabulary Haunted Forest** | 50 words across 10 categories, 3D flip-card mechanic |
-| 🧩 **Word Matching** | Drag-and-drop emoji → word matching, 3 rounds |
-| ❓ **Spell-It Quiz** | 4-choice word quiz, streak counter, fireworks on 5-in-a-row |
-| 🫧 **Magic Cauldron** | Progress dashboard: letters / words / stars earned |
-
-All content works **fully offline** — pronunciation uses on-device TTS
-(`flutter_tts`), no audio files or internet required.
+| New project built in the Submission Period (Oct 30 – Dec 4, 2026) | First commit **21 Nov 2026**; full history in this repo. |
+| Working software built with Kiro | Built in **Kiro IDE**: see [How Kiro was used](#-how-kiro-was-used). |
+| Public GitHub repo with all source, assets and instructions | Everything needed to run it is here; see [Run it](#-run-it). |
+| Open-source license, visible in the About section | [MIT](LICENSE). |
+| `/.kiro` directory at the repo root, not git-ignored | [`.kiro/specs`](.kiro/specs) and [`.kiro/steering`](.kiro/steering). |
+| Working app URL | Live web app (link above). No login needed. |
+| Demo video under 3 minutes, public on YouTube | Link above. |
+| No third-party copyrighted material without permission | Every outside asset is listed with its source and license in [Credits](#-credits). |
 
 ---
 
-## 🚀 Getting Started
+## 🕯️ The five lessons
 
-### Prerequisites
-- Flutter 3.47.2+ (`flutter --version`)
-- Android SDK or Chrome (for web)
+Each lesson opens once the one before it is finished.
 
-### Run
+| Lesson | What the child does |
+|---|---|
+| 🎃 **Alphabet Adventure** | Tap the glowing pumpkin to hear each letter, A to Z. |
+| 👻 **Haunted Forest** | Flip a card to see and hear one of 20 forest words. |
+| 🧩 **Word Matching** | Join each picture to its word; a glowing rope links each correct pair. |
+| ❓ **Spell-It Quiz** | Tap letter pumpkins in order to spell a word; the right pumpkin glows after two misses. |
+| 🧪 **Magic Cauldron** | Listen to Boo, then drop the right ingredient into the bubbling pot. |
+
+**Also:** up to 2 child profiles, a Parent Dashboard (letters and words
+learned, time played, skill bars), coins for every first success,
+background music that pauses during lessons so children can focus, one-tap
+mute, and a layout for portrait and landscape on Android, iOS and web.
+
+---
+
+## 🎨 Why it fits the Costume Contest
+
+The Halloween theme drives every interaction:
+
+- **Pumpkins are the letters.** One glowing pumpkin carries each letter in
+  Alphabet Adventure, and small pumpkins are the letter tiles in Spell-It Quiz.
+- **Mistakes are spooky, never harsh.** A wrong answer makes a soft ghostly
+  "woo" and a shake. There is no red error colour, and Boo names the right
+  answer so every mistake still teaches.
+- **Rewards feel like magic.** Glowing ropes, rising coins, a cauldron that
+  splashes and changes colour, and fireflies drifting over a moonlit graveyard.
+- **Boo is always there.** He floats beside each lesson and tells the child,
+  in a speech bubble, exactly what to do next.
+
+---
+
+## 🛠 How Kiro was used
+
+The whole app was built in **Kiro IDE**.
+
+- **Spec-driven development.** [`.kiro/specs/SPEC-engkids-v1.md`](.kiro/specs/SPEC-engkids-v1.md)
+  was written before any code. It sets the audience, success criteria, tech
+  stack and what was deferred, so each lesson was built against agreed goals
+  instead of improvised.
+- **Steering.** [`.kiro/steering/project.md`](.kiro/steering/project.md) holds
+  the rules Kiro followed in every file: the Halloween palette, 48 dp minimum
+  tap targets, a sound and haptic on every interaction, no red error colours
+  for children, portrait and landscape layouts, and "always / ask first /
+  never" boundaries.
+- **Small, verified steps.** Each feature was built in slices, and none was
+  marked done until `flutter analyze` was clean and every test passed.
+- **Tests that caught real bugs.** The suite (112 tests) covers the rules of
+  every lesson, saving progress, and the screens at phone sizes in both
+  orientations. It caught a coin animation that drew a red error box, a crash
+  when leaving a lesson, and a misnamed audio file (`pumbkin.mp3`) that would
+  have played silently.
+
+---
+
+## 🚀 Run it
+
+Requires [Flutter](https://docs.flutter.dev/get-started/install) 3.47.2 or newer.
+
 ```bash
-git clone https://github.com/YOUR_USERNAME/engkids.git
-cd engkids
+git clone https://github.com/Manar-Elhabbal7/EngKid.git
+cd EngKid
 flutter pub get
-flutter run                   # Android / connected device
-flutter run -d chrome         # Web
+flutter run -d chrome      # web
+flutter run                # Android or iOS device
+flutter test               # run the test suite
 ```
 
-### Build
-```bash
-flutter build apk --release   # Android APK
-flutter build web --release   # Web
-```
-
-### Test & Analyze
-```bash
-flutter test
-flutter analyze
-```
-
----
-
-## 🗂️ Project Structure
-
-```
-lib/
-  main.dart                        # Entry point, Hive init, TTS warm-up
-  app/
-    theme.dart                     # HalloweenTheme + HalloweenColors
-    router.dart                    # GoRouter with spooky transitions
-  features/
-    home/                          # Haunted Mansion home screen
-    alphabet/                      # Alphabet Adventure (A–Z PageView)
-    vocabulary/                    # Vocabulary Haunted Forest (flip cards)
-    matching/                      # Word Matching Game (drag & drop)
-    quiz/                          # Spell-It Quiz (multiple choice)
-    progress/                      # Magic Cauldron (progress dashboard)
-  shared/
-    services/                      # TtsService, AudioService
-    providers/                     # Riverpod + Hive progress providers
-    widgets/                       # ScaffoldWithBackground, GhostMascot,
-                                   # SpookyButton, StarReward
-.kiro/
-  steering/project.md              # Kiro steering — conventions & rules
-  specs/SPEC-engkids-v1.md         # Full V1 spec
-assets/
-  images/   audio/   animations/   # Asset directories (SFX to be added)
-```
-
----
-
-## 🛠️ How Kiro Was Used
-
-This project was built entirely with **Kiro IDE** using spec-driven development:
-
-- **Spec** (`.kiro/specs/SPEC-engkids-v1.md`) — written before any code,
-  covering objectives, tech stack, feature list, success criteria, and what
-  was explicitly deferred to V2. This made every implementation decision
-  traceable and prevented scope creep.
-
-- **Steering** (`.kiro/steering/project.md`) — defined the Halloween colour
-  palette, file naming conventions, TTS settings, and "always / ask first /
-  never" rules. Kiro followed these automatically across every file it touched.
-
-- **Incremental implementation** — each phase was a separate session with its
-  own analyze + test gate before moving on. No phase was marked done until
-  `flutter analyze` returned zero issues and all tests passed.
-
-- **Test-driven** — unit tests were written alongside game logic (quiz engine,
-  matching game), catching a real bug (duplicate "Bat" word across categories)
-  before it could affect the UI.
-
----
-
-## 📋 Tech Stack
-
-| Concern | Package |
-|---|---|
-| Framework | Flutter 3.47.2 / Dart 3.13.2 |
-| State | flutter_riverpod 2.6.1 |
-| Navigation | go_router 14.x |
-| Animation | flutter_animate 4.5.2, lottie 3.x |
-| Fonts | google_fonts (Baloo 2) |
-| TTS | flutter_tts 4.2.5 |
-| Audio SFX | audioplayers 6.x |
-| Storage | hive_flutter 1.1.0 |
+On web, browsers only allow sound after the first tap or click, so the
+splash music starts once you interact with the page.
 
 ---
 
@@ -124,13 +109,17 @@ This project was built entirely with **Kiro IDE** using spec-driven development:
 
 - **Letter voices** (`assets/audio/letters/A.mp3` … `Z.mp3`): recordings from
   [Show and Tell Letter](https://www.showandtellletter.com/letters).
-- **Haunted Forest word voices** (`assets/audio/words/*.mp3`): pronunciations
-  from [Forvo](https://forvo.com), recorded by Forvo community members.
-  Forvo pronunciations are licensed under
+- **Word voices** (`assets/audio/words/*.mp3`): pronunciations from
+  [Forvo](https://forvo.com), recorded by Forvo community members, licensed
   [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/)
-  (credit required, non-commercial use only, share-alike). These audio files
-  are not covered by this project's MIT license.
+  (credit required, non-commercial, share-alike). These files are not covered
+  by this project's MIT license.
+- **Theme music** (`assets/audio/halloween_splash.mp3`): _add source and license_.
+- **Sound effects** (`chime`, `creak`, `sparkle`, `woo`): made for this project
+  with Python and ffmpeg.
+- **Font:** [Baloo 2](https://fonts.google.com/specimen/Baloo+2), SIL Open Font License.
+- **Illustrations** (Boo, pumpkins, backgrounds, cauldron, padlock): _add source and license_.
 
 ## 📄 License
 
-MIT — see [LICENSE](LICENSE).
+Code: [MIT](LICENSE). Third-party audio keeps the licenses listed in Credits.
