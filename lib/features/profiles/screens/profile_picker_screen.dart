@@ -14,6 +14,7 @@ import 'package:engkids/features/profiles/widgets/back_home_button.dart';
 import 'package:engkids/features/profiles/widgets/profile_card.dart';
 import 'package:engkids/features/splash/widgets/firefly_layer.dart';
 import 'package:engkids/shared/audio/audio_service.dart';
+import 'package:engkids/shared/widgets/welcome_background.dart';
 
 /// "Who is playing today?" — shown after Play, before the game list.
 class ProfilePickerScreen extends ConsumerStatefulWidget {
@@ -76,11 +77,7 @@ class _ProfilePickerScreenState extends ConsumerState<ProfilePickerScreen>
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            'assets/images/welcome_scene.jpg',
-            fit: BoxFit.cover,
-            alignment: const Alignment(0, -0.2),
-          ),
+          const WelcomeBackground(),
           const ColoredBox(color: Color(0x880E0318)),
           AnimatedBuilder(
             animation: _twinkle,

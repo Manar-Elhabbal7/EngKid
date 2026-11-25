@@ -7,6 +7,7 @@ import 'package:engkids/features/home/widgets/menu_pill_button.dart';
 import 'package:engkids/features/home/widgets/mute_button.dart';
 import 'package:engkids/features/splash/widgets/firefly_layer.dart';
 import 'package:engkids/shared/audio/audio_service.dart';
+import 'package:engkids/shared/widgets/welcome_background.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -44,7 +45,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       body: Stack(
         fit: StackFit.expand,
         children: [
-          const _WelcomeScene(),
+          const WelcomeBackground(
+            label: 'Boo the ghost waving in a Halloween forest',
+            alignment: Alignment(0, -0.12),
+          ),
           AnimatedBuilder(
             animation: _twinkle,
             builder: (context, _) => FireflyLayer(t: _twinkle.value),
@@ -111,56 +115,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           ),
         ],
       ),
-    );
-  }
-}
-
-/// Tall screens (phones): the scene fills the screen, as before.
-/// Wide screens (web, landscape): a dimmed copy fills the screen and the
-/// whole scene sits centred on top, so Boo and the sign aren't zoomed in
-/// and cut off. Same approach as the splash screen.
-class _WelcomeScene extends StatelessWidget {
-  const _WelcomeScene();
-
-  static const _image = 'assets/images/welcome_scene.jpg';
-  static const _label = 'Boo the ghost waving in a Halloween forest';
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, box) {
-        if (box.maxWidth <= box.maxHeight) {
-          return Image.asset(
-            _image,
-            fit: BoxFit.cover,
-            alignment: const Alignment(0, -0.12),
-            filterQuality: FilterQuality.high,
-            semanticLabel: _label,
-          );
-        }
-        return Stack(
-          fit: StackFit.expand,
-          children: [
-            ColorFiltered(
-              colorFilter: const ColorFilter.mode(
-                Color(0x99120418),
-                BlendMode.srcATop,
-              ),
-              child: Image.asset(
-                _image,
-                fit: BoxFit.cover,
-                excludeFromSemantics: true,
-              ),
-            ),
-            Image.asset(
-              _image,
-              fit: BoxFit.contain,
-              filterQuality: FilterQuality.high,
-              semanticLabel: _label,
-            ),
-          ],
-        );
-      },
     );
   }
 }

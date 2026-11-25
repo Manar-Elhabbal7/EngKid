@@ -15,6 +15,7 @@ import 'package:engkids/features/profiles/widgets/back_home_button.dart';
 import 'package:engkids/features/progress/models/child_progress.dart';
 import 'package:engkids/features/progress/providers/progress_provider.dart';
 import 'package:engkids/shared/audio/audio_service.dart';
+import 'package:engkids/shared/widgets/welcome_background.dart';
 
 /// Parent Dashboard: the chosen player (or Boo if nobody is chosen) and
 /// their progress.
@@ -92,11 +93,7 @@ class ParentsScreen extends ConsumerWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            'assets/images/welcome_scene.jpg',
-            fit: BoxFit.cover,
-            alignment: const Alignment(0, -0.2),
-          ),
+          const WelcomeBackground(),
           const ColoredBox(color: Color(0x990E0318)),
           SafeArea(
             child: Column(
