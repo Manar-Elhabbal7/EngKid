@@ -29,7 +29,7 @@ pictures alone.
 
 ---
 
-## 🕯️ The five lessons
+## The five lessons
 
 Each lesson opens once the one before it is finished.
 
@@ -48,7 +48,7 @@ mute, and a layout for portrait and landscape on Android, iOS and web.
 
 ---
 
-## 🎨 Why it fits the Costume Contest
+##  Why it fits the Costume Contest
 
 The Halloween theme drives every interaction:
 
@@ -64,7 +64,7 @@ The Halloween theme drives every interaction:
 
 ---
 
-## 🛠 How Kiro was used
+## How Kiro was used
 
 The whole app was built in **Kiro IDE**.
 
@@ -105,7 +105,7 @@ splash music starts once you interact with the page.
 
 ---
 
-## 🙏 Credits
+## Credits
 
 - **Letter voices** (`assets/audio/letters/A.mp3` … `Z.mp3`): recordings from
   [Show and Tell Letter](https://www.showandtellletter.com/letters).
@@ -120,6 +120,6 @@ splash music starts once you interact with the page.
 - **Font:** [Baloo 2](https://fonts.google.com/specimen/Baloo+2), SIL Open Font License.
 - **Illustrations** (Boo, pumpkins, backgrounds, cauldron, padlock): _add source and license_.
 
-## 📄 License
+##  License
 
 Code: [MIT](LICENSE). Third-party audio keeps the licenses listed in Credits.
