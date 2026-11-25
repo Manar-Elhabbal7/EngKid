@@ -21,6 +21,7 @@ class PlayPickerScreen extends ConsumerWidget {
     Lesson.forest: '/play/forest',
     Lesson.matching: '/play/matching',
     Lesson.quiz: '/play/quiz',
+    Lesson.cauldron: '/play/cauldron',
   };
 
   void _open(BuildContext context, WidgetRef ref, Lesson lesson) {
