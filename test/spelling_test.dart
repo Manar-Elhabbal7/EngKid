@@ -242,7 +242,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 300));
       expect(find.text('You spelled all 10 words!'), findsOneWidget);
       expect(find.text('+20 bonus coins'), findsOneWidget);
-      expect(find.text('🫧 Magic Cauldron is now open!'), findsOneWidget);
+      expect(find.text('🧪 Magic Cauldron is now open!'), findsOneWidget);
       expect(progress().coins, 70);
       expect(progress().strength(Skill.spelling), 1.0);
 

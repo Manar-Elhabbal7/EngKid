@@ -180,7 +180,15 @@ class _LessonTile extends StatelessWidget {
           },
           leading: Opacity(
             opacity: unlocked ? 1 : 0.55,
-            child: Text(lesson.emoji, style: const TextStyle(fontSize: 28)),
+            child: lesson.icon != null
+                ? Image.asset(
+                    lesson.icon!,
+                    width: 38,
+                    height: 38,
+                    cacheWidth: 120,
+                    excludeFromSemantics: true,
+                  )
+                : Text(lesson.emoji, style: const TextStyle(fontSize: 28)),
           ),
           title: Text(
             lesson.title,
