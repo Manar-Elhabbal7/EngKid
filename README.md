@@ -9,8 +9,9 @@ letters glow on pumpkins, words hide on forest cards, and ingredients splash
 into a cauldron. Children who can't read yet can follow along by sound and
 pictures alone.
 
-**Live app:** _add Vercel URL_ · **🎬 Demo video:** _add YouTube URL_ ·
-**Android APK:** [Releases](https://github.com/Manar-Elhabbal7/EngKid/releases)
+- **Live app:** https://engkid.vercel.app/ 
+- **🎬 Demo video:** _add YouTube URL_ 
+- **Android APK:** [Link](https://github.com/Manar-Elhabbal7/EngKid/releases/download/v1.0.0/app-release.apk)
 
 ---
 
