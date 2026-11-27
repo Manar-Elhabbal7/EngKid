@@ -23,25 +23,8 @@ https://github.com/user-attachments/assets/8cb41fb9-7d03-4162-86de-9eb925fef154
 ## App Demo
 
 
+https://github.com/user-attachments/assets/e4dc9c91-c89f-4525-b614-60586d5fc778
 
----
-
-## ✅ Hackathon eligibility
-
-<details>
-  <summary>🎃 eligibility </summary>
-| Requirement | How EngKids meets it |
-|---|---|
-| New project built in the Submission Period (Oct 30 – Dec 4, 2026) | First commit **21 Nov 2026**; full history in this repo. |
-| Working software built with Kiro | Built in **Kiro IDE**: see [How Kiro was used](#how-kiro-was-used). |
-| Public GitHub repo with all source, assets and instructions | Everything needed to run it is here; see [Run it](#-run-it). |
-| Open-source license, visible in the About section | [MIT](LICENSE). |
-| `/.kiro` directory at the repo root, not git-ignored | [`.kiro/specs`](.kiro/specs) and [`.kiro/steering`](.kiro/steering). |
-| Working app URL | Live web app (link above). No login needed. |
-| Demo video under 3 minutes, public on YouTube | Link above. |
-| No third-party copyrighted material without permission | Every outside asset is listed with its source and license in [Credits](#credits). |
-
-</details>
 
 ---
 
@@ -64,10 +47,25 @@ mute, and a layout for portrait and landscape on Android, iOS and web.
 
 ---
 
-##  Why it fits the Costume Contest
+<details>
+  <summary>🎃  Hackathon eligibility </summary>
+  
+| Requirement | How EngKids meets it |
+|---|---|
+| New project built in the Submission Period (Oct 30 – Dec 4, 2026) | First commit **21 Nov 2026**; full history in this repo. |
+| Working software built with Kiro | Built in **Kiro IDE**: see [How Kiro was used](#how-kiro-was-used). |
+| Public GitHub repo with all source, assets and instructions | Everything needed to run it is here; see [Run it](#-run-it). |
+| Open-source license, visible in the About section | [MIT](LICENSE). |
+| `/.kiro` directory at the repo root, not git-ignored | [`.kiro/specs`](.kiro/specs) and [`.kiro/steering`](.kiro/steering). |
+| Working app URL | Live web app (link above). No login needed. |
+| Demo video under 3 minutes, public on YouTube | Link above. |
+| No third-party copyrighted material without permission | Every outside asset is listed with its source and license in [Credits](#credits). |
+
+</details>
+
 
 <details>
-  <summary>🎃 why fits</summary>
+  <summary>🎃 Why it fits the Costume Contest</summary>
 The Halloween theme drives every interaction:
 
 - **Pumpkins are the letters.** One glowing pumpkin carries each letter in
@@ -81,9 +79,6 @@ The Halloween theme drives every interaction:
   in a speech bubble, exactly what to do next.
 </details>
 
----
-
-## How Kiro was used
 
 <details>
   <summary>🎃 kiro usage </summary>
@@ -107,9 +102,7 @@ The whole app was built in **Kiro IDE**.
   have played silently.
 </details>
 
----
 
-## Run it
 
 <details>
   <summary>🎃 run it </summary>
@@ -129,11 +122,11 @@ splash music starts once you interact with the page.
 
 </details>
 
----
 
-## Credits
+
 <details>
 <summary>🎃 credits</summary>
+  
 - **Letter and word voices** (`assets/audio/letters/A.mp3` … `Z.mp3` and
   `assets/audio/words/*.mp3`): generated with
   [TTSMaker](https://ttsmaker.com), which allows free use of the downloaded
@@ -145,7 +138,7 @@ splash music starts once you interact with the page.
 
 </details>
 
----
+
 
 ##  License
 
