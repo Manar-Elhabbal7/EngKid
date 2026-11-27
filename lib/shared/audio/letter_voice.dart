@@ -29,7 +29,8 @@ abstract interface class LetterVoice {
 
 /// Plays the recorded letters (`assets/audio/letters/A.mp3` …) and forest
 /// words (`assets/audio/words/owl.mp3` …). If a file is missing, the
-/// phone's text-to-speech says it instead.
+/// phone's text-to-speech says it instead. The recordings were generated
+/// with TTSMaker (see README credits).
 class DeviceLetterVoice implements LetterVoice {
   final _player = AudioPlayer();
   final _tts = FlutterTts();

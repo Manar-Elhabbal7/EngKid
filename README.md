@@ -108,13 +108,10 @@ splash music starts once you interact with the page.
 
 ## Credits
 
-- **Letter voices** (`assets/audio/letters/A.mp3` … `Z.mp3`): recordings from
-  [Show and Tell Letter](https://www.showandtellletter.com/letters).
-- **Word voices** (`assets/audio/words/*.mp3`): pronunciations from
-  [Forvo](https://forvo.com), recorded by Forvo community members, licensed
-  [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/)
-  (credit required, non-commercial, share-alike). These files are not covered
-  by this project's MIT license.
+- **Letter and word voices** (`assets/audio/letters/A.mp3` … `Z.mp3` and
+  `assets/audio/words/*.mp3`): generated with
+  [TTSMaker](https://ttsmaker.com), which allows free use of the downloaded
+  audio, including commercial use.
 - **Theme music** (`assets/audio/halloween_splash.mp3`): _add source and license_.
 - **Sound effects** (`chime`, `creak`, `sparkle`, `woo`): made for this project
   with Python and ffmpeg.
@@ -123,4 +120,4 @@ splash music starts once you interact with the page.
 
 ##  License
 
-Code: [MIT](LICENSE). Third-party audio keeps the licenses listed in Credits.
+Code: [MIT](LICENSE). Third-party assets keep the licenses listed in Credits.
