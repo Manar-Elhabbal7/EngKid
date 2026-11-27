@@ -94,6 +94,14 @@ class _CauldronScreenState extends ConsumerState<CauldronScreen>
     }
   }
 
+  void _prev() => stepBack(() {
+    _index--;
+    _choices = Cauldron.choicesFor(_target, _rng);
+    _found = false;
+    _asked = false;
+    _wrong = null;
+  });
+
   void _next() {
     if (!_isLast) {
       stepForward(() {
@@ -162,9 +170,11 @@ class _CauldronScreenState extends ConsumerState<CauldronScreen>
 
   Widget _controls() => LessonNextControls(
     isLast: _isLast,
-    enabled: _found,
+    // Also open when this ingredient was found before (e.g. after Prev).
+    enabled: _found || myProgress.hasBrewed(_target),
     counter: '${_index + 1} / ${Cauldron.ingredients.length}',
     onNext: _next,
+    onPrev: _index > 0 ? _prev : null,
   );
 
   @override

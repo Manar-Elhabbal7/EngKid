@@ -140,4 +140,14 @@ mixin LessonSession<T extends ConsumerStatefulWidget>
       speaking = false;
     });
   }
+
+  /// Goes back one item (stops any sound, plays the door creak).
+  void stepBack(VoidCallback change) {
+    voice.stop();
+    audio.playSfx('audio/creak.mp3');
+    setState(() {
+      change();
+      speaking = false;
+    });
+  }
 }

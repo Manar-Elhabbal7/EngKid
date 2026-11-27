@@ -20,13 +20,13 @@ pictures alone.
 | Requirement | How EngKids meets it |
 |---|---|
 | New project built in the Submission Period (Oct 30 – Dec 4, 2026) | First commit **21 Nov 2026**; full history in this repo. |
-| Working software built with Kiro | Built in **Kiro IDE**: see [How Kiro was used](#-how-kiro-was-used). |
+| Working software built with Kiro | Built in **Kiro IDE**: see [How Kiro was used](#how-kiro-was-used). |
 | Public GitHub repo with all source, assets and instructions | Everything needed to run it is here; see [Run it](#-run-it). |
 | Open-source license, visible in the About section | [MIT](LICENSE). |
 | `/.kiro` directory at the repo root, not git-ignored | [`.kiro/specs`](.kiro/specs) and [`.kiro/steering`](.kiro/steering). |
 | Working app URL | Live web app (link above). No login needed. |
 | Demo video under 3 minutes, public on YouTube | Link above. |
-| No third-party copyrighted material without permission | Every outside asset is listed with its source and license in [Credits](#-credits). |
+| No third-party copyrighted material without permission | Every outside asset is listed with its source and license in [Credits](#credits). |
 
 ---
 
@@ -80,7 +80,7 @@ The whole app was built in **Kiro IDE**.
   never" boundaries.
 - **Small, verified steps.** Each feature was built in slices, and none was
   marked done until `flutter analyze` was clean and every test passed.
-- **Tests that caught real bugs.** The suite (112 tests) covers the rules of
+- **Tests that caught real bugs.** The suite (117 tests) covers the rules of
   every lesson, saving progress, and the screens at phone sizes in both
   orientations. It caught a coin animation that drew a red error box, a crash
   when leaving a lesson, and a misnamed audio file (`pumbkin.mp3`) that would
@@ -112,11 +112,10 @@ splash music starts once you interact with the page.
   `assets/audio/words/*.mp3`): generated with
   [TTSMaker](https://ttsmaker.com), which allows free use of the downloaded
   audio, including commercial use.
-- **Theme music** (`assets/audio/halloween_splash.mp3`): _add source and license_.
 - **Sound effects** (`chime`, `creak`, `sparkle`, `woo`): made for this project
   with Python and ffmpeg.
 - **Font:** [Baloo 2](https://fonts.google.com/specimen/Baloo+2), SIL Open Font License.
-- **Illustrations** (Boo, pumpkins, backgrounds, cauldron, padlock): _add source and license_.
+- **Illustrations** (Boo, pumpkins, backgrounds, cauldron, padlock): ai generated
 
 ##  License
 

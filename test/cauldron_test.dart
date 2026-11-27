@@ -209,6 +209,34 @@ void main() {
       expect(find.text('Turn on the sound, or find the Bat!'), findsOneWidget);
     });
 
+    testWidgets(
+      'Prev goes back an ingredient; Next stays open for found ones',
+      (tester) async {
+        await pump(tester);
+        await tester.tap(
+          find.bySemanticsLabel('Previous'),
+          warnIfMissed: false,
+        );
+        await tester.pump();
+        expect(
+          find.text('1 / 10'),
+          findsOneWidget,
+          reason: 'Prev is off first',
+        );
+
+        await pick(tester, 'Bat');
+        await tester.tap(find.text('Next'));
+        await tester.pump();
+        await tester.tap(find.bySemanticsLabel('Previous'));
+        await tester.pump();
+        expect(find.text('1 / 10'), findsOneWidget);
+        expect(orb('Bat'), findsOneWidget, reason: 'new bubbles for the round');
+        await tester.tap(find.text('Next'));
+        await tester.pump();
+        expect(find.text('2 / 10'), findsOneWidget);
+      },
+    );
+
     testWidgets('background music is off while brewing', (tester) async {
       await pump(tester);
       final audio = c.read(audioServiceProvider);

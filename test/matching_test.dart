@@ -201,6 +201,26 @@ void main() {
       expect(picture('Owl'), findsOneWidget);
     });
 
+    testWidgets('Prev goes back a round; Next stays open for done rounds', (
+      tester,
+    ) async {
+      await pump(tester);
+      for (final w in Matching.rounds[0]) {
+        await match(tester, w.word, w.word);
+      }
+      await tester.tap(find.text('Next'));
+      await tester.pump();
+      expect(find.text('Round 2 / 5'), findsOneWidget);
+
+      await tester.tap(find.bySemanticsLabel('Previous'));
+      await tester.pump();
+      expect(find.text('Round 1 / 5'), findsOneWidget);
+      await tester.tap(find.text('Next'));
+      await tester.pump();
+      expect(find.text('Round 2 / 5'), findsOneWidget);
+      expect(progress().coins, 20, reason: 'no coins for going back');
+    });
+
     testWidgets('background music is off while matching', (tester) async {
       await pump(tester);
       final audio = c.read(audioServiceProvider);

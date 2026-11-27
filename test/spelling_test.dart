@@ -221,6 +221,24 @@ void main() {
       );
     });
 
+    testWidgets('Prev goes back a word; Next stays open for spelled ones', (
+      tester,
+    ) async {
+      await pump(tester);
+      await spell(tester, _w('Owl'));
+      await tester.tap(find.text('Next'));
+      await tester.pump();
+      expect(find.text('2 / 10'), findsOneWidget);
+
+      await tester.tap(find.bySemanticsLabel('Previous'));
+      await tester.pump();
+      expect(find.text('1 / 10'), findsOneWidget);
+      expect(find.bySemanticsLabel('Spelled so far: _ _ _'), findsOneWidget);
+      await tester.tap(find.text('Next'));
+      await tester.pump();
+      expect(find.text('2 / 10'), findsOneWidget);
+    });
+
     testWidgets('background music is off while spelling', (tester) async {
       await pump(tester);
       final audio = c.read(audioServiceProvider);

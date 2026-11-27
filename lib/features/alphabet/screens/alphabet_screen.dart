@@ -39,6 +39,8 @@ class _AlphabetScreenState extends ConsumerState<AlphabetScreen>
     );
   }
 
+  void _prev() => stepBack(() => _index--);
+
   void _next() {
     if (!_isLast) {
       stepForward(() => _index++);
@@ -97,6 +99,7 @@ class _AlphabetScreenState extends ConsumerState<AlphabetScreen>
                           burstId: burstId,
                           burstCoins: burstCoins,
                           onNext: _next,
+                          onPrev: _index > 0 ? _prev : null,
                         ),
                       ),
                     ],

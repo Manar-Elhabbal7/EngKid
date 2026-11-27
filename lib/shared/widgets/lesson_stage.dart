@@ -21,6 +21,7 @@ class LessonStage extends StatelessWidget {
     required this.burstId,
     required this.burstCoins,
     required this.onNext,
+    this.onPrev,
   });
 
   final bool wide;
@@ -37,6 +38,9 @@ class LessonStage extends StatelessWidget {
   final int burstId;
   final int burstCoins;
   final VoidCallback onNext;
+
+  /// Goes back one item; null on the first item.
+  final VoidCallback? onPrev;
 
   Widget _prop(double size) => Stack(
     clipBehavior: Clip.none,
@@ -62,6 +66,7 @@ class LessonStage extends StatelessWidget {
     enabled: heard,
     counter: '$number / $total',
     onNext: onNext,
+    onPrev: onPrev,
   );
 
   @override

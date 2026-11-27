@@ -39,6 +39,8 @@ class _ForestScreenState extends ConsumerState<ForestScreen>
     );
   }
 
+  void _prev() => stepBack(() => _index--);
+
   void _next() {
     if (!_isLast) {
       stepForward(() => _index++);
@@ -100,6 +102,7 @@ class _ForestScreenState extends ConsumerState<ForestScreen>
                           burstId: burstId,
                           burstCoins: burstCoins,
                           onNext: _next,
+                          onPrev: _index > 0 ? _prev : null,
                         ),
                       ),
                     ],

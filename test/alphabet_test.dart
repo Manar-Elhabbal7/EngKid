@@ -267,6 +267,26 @@ void main() {
       expect(progress().coins, 0, reason: "Boo's progress is separate");
     });
 
+    testWidgets('Prev goes back a letter; Next stays open for heard ones', (
+      tester,
+    ) async {
+      await pump(tester);
+      await tester.tap(find.bySemanticsLabel('Previous'), warnIfMissed: false);
+      await tester.pump();
+      expect(pumpkin('A'), findsOneWidget, reason: 'Prev is off on A');
+
+      await hearCurrent(tester, 'A');
+      await tester.tap(find.text('Next'));
+      await tester.pump();
+      await tester.tap(find.bySemanticsLabel('Previous'));
+      await tester.pump();
+      expect(pumpkin('A'), findsOneWidget);
+      expect(find.text('1 / 26'), findsOneWidget);
+      await tester.tap(find.text('Next'));
+      await tester.pump();
+      expect(pumpkin('B'), findsOneWidget, reason: 'A was heard before');
+    });
+
     testWidgets('fits a landscape phone', (tester) async {
       await pump(tester, size: const Size(844, 390));
       expect(tester.takeException(), isNull);

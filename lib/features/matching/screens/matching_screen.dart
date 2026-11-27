@@ -113,6 +113,15 @@ class _MatchingScreenState extends ConsumerState<MatchingScreen>
     }
   }
 
+  void _prev() => stepBack(() {
+    _round--;
+    _words = _shuffled();
+    _matched.clear();
+    _pickedPicture = null;
+    _pickedWord = null;
+    _oops = false;
+  });
+
   void _next() {
     if (!_isLast) {
       stepForward(() {
@@ -168,9 +177,11 @@ class _MatchingScreenState extends ConsumerState<MatchingScreen>
 
   Widget _controls() => LessonNextControls(
     isLast: _isLast,
-    enabled: _roundDone,
+    // Also open when this round was finished before (e.g. after Prev).
+    enabled: _roundDone || myProgress.roundDone(_round),
     counter: 'Round ${_round + 1} / ${Matching.rounds.length}',
     onNext: _next,
+    onPrev: _round > 0 ? _prev : null,
   );
 
   @override

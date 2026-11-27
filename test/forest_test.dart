@@ -198,6 +198,22 @@ void main() {
       expect(find.text('games'), findsOneWidget);
     });
 
+    testWidgets('Prev goes back a word; Next stays open for heard ones', (
+      tester,
+    ) async {
+      await pump(tester);
+      await hear(tester, 'Moon');
+      await tester.tap(find.text('Next'));
+      await tester.pump();
+      expect(card('Star'), findsOneWidget);
+      await tester.tap(find.bySemanticsLabel('Previous'));
+      await tester.pump();
+      expect(card('Moon'), findsOneWidget);
+      await tester.tap(find.text('Next'));
+      await tester.pump();
+      expect(card('Star'), findsOneWidget);
+    });
+
     testWidgets('fits a landscape phone', (tester) async {
       await pump(tester, size: const Size(844, 390));
       expect(tester.takeException(), isNull);

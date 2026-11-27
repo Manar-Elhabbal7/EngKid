@@ -108,6 +108,15 @@ class _SpellingScreenState extends ConsumerState<SpellingScreen>
     }
   }
 
+  void _prev() => stepBack(() {
+    _index--;
+    _tiles = _shuffled();
+    _used.clear();
+    _filled = 0;
+    _mistakes = 0;
+    _oops = false;
+  });
+
   void _next() {
     if (!_isLast) {
       stepForward(() {
@@ -198,9 +207,11 @@ class _SpellingScreenState extends ConsumerState<SpellingScreen>
 
   Widget _controls() => LessonNextControls(
     isLast: _isLast,
-    enabled: _done,
+    // Also open when this word was spelled before (e.g. after Prev).
+    enabled: _done || myProgress.hasSpelled(_word),
     counter: '${_index + 1} / ${Spelling.words.length}',
     onNext: _next,
+    onPrev: _index > 0 ? _prev : null,
   );
 
   @override
