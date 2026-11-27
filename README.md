@@ -10,8 +10,15 @@ into a cauldron. Children who can't read yet can follow along by sound and
 pictures alone.
 
 - **Live app:** https://engkid.vercel.app/ 
-- **🎬 Demo video:** _add YouTube URL_ 
+- **🎬 Demo video:** : https://youtu.be/gV1sEzrnkiU
 - **Android APK:** [Link](https://github.com/Manar-Elhabbal7/EngKid/releases/download/v1.0.0/app-release.apk)
+---
+
+## Web Demo
+
+
+https://github.com/user-attachments/assets/8cb41fb9-7d03-4162-86de-9eb925fef154
+
 
 ---
 
