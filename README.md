@@ -20,10 +20,16 @@ pictures alone.
 https://github.com/user-attachments/assets/8cb41fb9-7d03-4162-86de-9eb925fef154
 
 
+## App Demo
+
+
+
 ---
 
 ## ✅ Hackathon eligibility
 
+<details>
+  <summary>🎃 eligibility </summary>
 | Requirement | How EngKids meets it |
 |---|---|
 | New project built in the Submission Period (Oct 30 – Dec 4, 2026) | First commit **21 Nov 2026**; full history in this repo. |
@@ -34,6 +40,8 @@ https://github.com/user-attachments/assets/8cb41fb9-7d03-4162-86de-9eb925fef154
 | Working app URL | Live web app (link above). No login needed. |
 | Demo video under 3 minutes, public on YouTube | Link above. |
 | No third-party copyrighted material without permission | Every outside asset is listed with its source and license in [Credits](#credits). |
+
+</details>
 
 ---
 
@@ -58,6 +66,8 @@ mute, and a layout for portrait and landscape on Android, iOS and web.
 
 ##  Why it fits the Costume Contest
 
+<details>
+  <summary>🎃 why fits</summary>
 The Halloween theme drives every interaction:
 
 - **Pumpkins are the letters.** One glowing pumpkin carries each letter in
@@ -69,11 +79,14 @@ The Halloween theme drives every interaction:
   splashes and changes colour, and fireflies drifting over a moonlit graveyard.
 - **Boo is always there.** He floats beside each lesson and tells the child,
   in a speech bubble, exactly what to do next.
+</details>
 
 ---
 
 ## How Kiro was used
 
+<details>
+  <summary>🎃 kiro usage </summary>
 The whole app was built in **Kiro IDE**.
 
 - **Spec-driven development.** [`.kiro/specs/SPEC-engkids-v1.md`](.kiro/specs/SPEC-engkids-v1.md)
@@ -92,11 +105,14 @@ The whole app was built in **Kiro IDE**.
   orientations. It caught a coin animation that drew a red error box, a crash
   when leaving a lesson, and a misnamed audio file (`pumbkin.mp3`) that would
   have played silently.
+</details>
 
 ---
 
-## 🚀 Run it
+## Run it
 
+<details>
+  <summary>🎃 run it </summary>
 Requires [Flutter](https://docs.flutter.dev/get-started/install) 3.47.2 or newer.
 
 ```bash
@@ -108,13 +124,16 @@ flutter run                # Android or iOS device
 flutter test               # run the test suite
 ```
 
-On web, browsers only allow sound after the first tap or click, so the
+Note : On web, browsers only allow sound after the first tap or click, so the
 splash music starts once you interact with the page.
+
+</details>
 
 ---
 
 ## Credits
-
+<details>
+<summary>🎃 credits</summary>
 - **Letter and word voices** (`assets/audio/letters/A.mp3` … `Z.mp3` and
   `assets/audio/words/*.mp3`): generated with
   [TTSMaker](https://ttsmaker.com), which allows free use of the downloaded
@@ -123,6 +142,10 @@ splash music starts once you interact with the page.
   with Python and ffmpeg.
 - **Font:** [Baloo 2](https://fonts.google.com/specimen/Baloo+2), SIL Open Font License.
 - **Illustrations** (Boo, pumpkins, backgrounds, cauldron, padlock): ai generated
+
+</details>
+
+---
 
 ##  License
 
