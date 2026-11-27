@@ -157,3 +157,83 @@ tasks/
 - ~~Should the app support landscape orientation, or portrait only?~~ **Resolved: both portrait and landscape.**
 - ~~Do you want real recorded child-friendly audio, or TTS?~~ **Resolved: flutter_tts (on-device TTS, no audio files needed).**
 - ~~Should web be the primary demo target?~~ **Resolved: Android is the primary target.**
+
+---
+
+# Spec Update: EngKids V2 (what was built)
+
+Status: implemented
+
+The V1 plan above was the starting point. While building it, we tested each
+lesson with the steering rules (child-safe UI, works without reading) and
+changed the plan where it didn't hold up. This section records those changes.
+The V1 sections above are kept unchanged so the planning history is visible.
+
+## Why the plan changed
+
+- **Children 4–8 often can't read.** Menus, 4-choice text quizzes and
+  50 words across 10 categories assumed reading. V2 relies on sound,
+  pictures and one clear task per screen, with Boo saying what to do next.
+- **Text-to-speech sounded robotic and varied by device.** V2 uses
+  recorded voices for every letter and word (generated with TTSMaker, which
+  allows commercial use). On-device TTS stays only as a fallback if a file is
+  missing.
+- **Progress needed an adult view, not a child's screen.** The V1 "Progress
+  Cauldron" became the **Parent Dashboard**, and the cauldron became a
+  listening game instead.
+
+## Lessons as built (each unlocks the next)
+
+| # | Lesson | V1 plan | V2 as built |
+|---|---|---|---|
+| 1 | 🎃 Alphabet Adventure | Letter cards with TTS | Tap a glowing pumpkin to hear each letter A–Z (26) |
+| 2 | 👻 Haunted Forest | 50 words, 10 categories | Flip a card to see and hear a word (20 words) |
+| 3 | 🧩 Word Matching | Drag emoji onto words | Tap a picture, then its word; a glowing rope links each pair (5 rounds of 4) |
+| 4 | ❓ Spell-It Quiz | 4-choice word quiz | Tap letter pumpkins in order to spell a word; the right one glows after 2 misses (10 words) |
+| 5 | 🧪 Magic Cauldron | Progress screen | Tap Hear it, then drop the right ingredient into the pot (10 rounds, 3 choices) |
+
+Every lesson shares one engine (`lib/features/lessons/lesson_session.dart`):
+the same header, coin counter, Boo's speech bubble, Prev / Next controls,
+finish screen, play-time tracking, and background music paused for focus.
+
+## Other features added
+
+- **Flow:** Splash → Home → "Who is playing today?" → game list → lesson.
+- **Profiles:** up to 2 child profiles. Boo is a placeholder until the first
+  real profile is added, and comes back when the last one is deleted.
+- **Rewards:** 5 coins for each first success, plus a 20-coin bonus for
+  finishing a lesson (530 coins for the whole adventure). Replays give no coins.
+- **Parent Dashboard:** letters and words learned, time played, and a
+  strength bar for alphabet, vocabulary, matching and spelling.
+- **Saved on the device** with Hive: profiles, the chosen profile, and each
+  child's progress survive restarts.
+- **Prev / Next** in every lesson; Next opens for anything already completed.
+
+## Success criteria: status
+
+- [x] App runs on Android and web
+- [x] All five lessons playable end to end
+- [x] Boo appears on every lesson screen
+- [x] Every letter and word plays a recording (checked by a test)
+- [x] Progress saved between restarts
+- [x] `flutter analyze` returns zero issues
+- [x] Portrait and landscape layouts, checked by tests at phone sizes
+- [ ] Demo video under 3 minutes
+
+## How Kiro kept the work on track
+
+- **Steering** (`.kiro/steering/project.md`) applied the child-safe rules to
+  every file: Halloween palette, 48 dp tap targets, sound and haptic on every
+  tap, no red error colours.
+- **Hooks** (`.kiro/hooks/`) run checks automatically:
+  - `analyze-on-dart-save`: `flutter analyze` when a Dart file is saved.
+  - `check-voice-files`: checks every letter and word recording exists when
+    a new audio file is added (this class of bug, `pumbkin.mp3`, once made a
+    word silent).
+  - `tests-after-agent-turn`: the full test suite (117 tests) after each Kiro
+    task, so nothing is reported done while tests fail.
+
+## Still out of scope
+
+Accounts and cloud sync, more lessons and words, more languages, in-app
+purchases, and a classroom mode.

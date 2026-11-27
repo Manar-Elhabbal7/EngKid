@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Run tests after each Kiro turn",
+      "trigger": "Stop",
+      "description": "Runs the full test suite (lesson rules, saved progress, screens in portrait and landscape) every time Kiro finishes a task, so a change is never reported as done while tests fail.",
+      "action": {
+        "type": "command",
+        "command": "flutter test --no-pub",
+        "timeout": 600
+      }
+    }
+  ]
+}

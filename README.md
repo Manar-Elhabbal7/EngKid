@@ -56,7 +56,7 @@ mute, and a layout for portrait and landscape on Android, iOS and web.
 | Working software built with Kiro | Built in **Kiro IDE**: see [How Kiro was used](#how-kiro-was-used). |
 | Public GitHub repo with all source, assets and instructions | Everything needed to run it is here; see [Run it](#-run-it). |
 | Open-source license, visible in the About section | [MIT](LICENSE). |
-| `/.kiro` directory at the repo root, not git-ignored | [`.kiro/specs`](.kiro/specs) and [`.kiro/steering`](.kiro/steering). |
+| `/.kiro` directory at the repo root, not git-ignored | [`.kiro/specs`](.kiro/specs), [`.kiro/steering`](.kiro/steering) and [`.kiro/hooks`](.kiro/hooks). |
 | Working app URL | Live web app (link above). No login needed. |
 | Demo video under 3 minutes, public on YouTube | Link above. |
 | No third-party copyrighted material without permission | Every outside asset is listed with its source and license in [Credits](#credits). |
@@ -87,12 +87,17 @@ The whole app was built in **Kiro IDE**.
 - **Spec-driven development.** [`.kiro/specs/SPEC-engkids-v1.md`](.kiro/specs/SPEC-engkids-v1.md)
   was written before any code. It sets the audience, success criteria, tech
   stack and what was deferred, so each lesson was built against agreed goals
-  instead of improvised.
+  instead of improvised. When testing showed the first plan assumed children
+  could read, the spec got a **V2 section** recording what changed and why.
 - **Steering.** [`.kiro/steering/project.md`](.kiro/steering/project.md) holds
   the rules Kiro followed in every file: the Halloween palette, 48 dp minimum
   tap targets, a sound and haptic on every interaction, no red error colours
   for children, portrait and landscape layouts, and "always / ask first /
   never" boundaries.
+- **Hooks.** [`.kiro/hooks`](.kiro/hooks) run checks automatically:
+  `flutter analyze` on every Dart save, a check that every letter and word
+  recording exists when new audio is added, and the full test suite after
+  each Kiro task, so nothing is reported done while a test fails.
 - **Small, verified steps.** Each feature was built in slices, and none was
   marked done until `flutter analyze` was clean and every test passed.
 - **Tests that caught real bugs.** The suite (117 tests) covers the rules of

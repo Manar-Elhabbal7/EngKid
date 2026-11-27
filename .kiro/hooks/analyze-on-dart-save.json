@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Analyze on Dart save",
+      "trigger": "PostFileSave",
+      "description": "Runs flutter analyze whenever a Dart file is saved, so lint errors and broken imports show up immediately instead of at commit time.",
+      "matcher": "\\.dart$",
+      "action": {
+        "type": "command",
+        "command": "flutter analyze --no-pub",
+        "timeout": 120
+      }
+    }
+  ]
+}

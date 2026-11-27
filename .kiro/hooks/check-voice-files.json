@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Check letter and word recordings",
+      "trigger": "PostFileCreate",
+      "description": "When a new letter or word recording is added, checks that every letter A-Z and every lesson word has a correctly named audio file, catching typos like pumbkin.mp3 that would play silently.",
+      "matcher": "assets/audio/(letters|words)/",
+      "action": {
+        "type": "command",
+        "command": "flutter test --no-pub test/audio_files_test.dart",
+        "timeout": 180
+      }
+    }
+  ]
+}
